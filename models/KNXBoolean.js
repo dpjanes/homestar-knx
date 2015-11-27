@@ -1,5 +1,5 @@
 /*
- *  KNXLight.js
+ *  KNXBoolean.js
  *
  *  David Janes
  *  IOTDB
@@ -8,10 +8,8 @@
 
 var iotdb = require("iotdb");
 
-exports.Model = iotdb.make_model('KNXLight')
-    .facet(":lighting")
-    .name("KNX Light")
-    .io("on", iotdb.boolean.on)
+exports.Model = iotdb.make_model('KNXBoolean')
+    .io("value", iotdb.boolean.value)
     .make();
 
 exports.binding = {

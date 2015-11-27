@@ -26,7 +26,7 @@ var iotdb = require('iotdb');
 var _ = iotdb._;
 var bunyan = iotdb.bunyan;
 
-var knx = require('knx');
+// var knx = require('knx');
 
 var logger = bunyan.createLogger({
     name: 'homestar-knx',

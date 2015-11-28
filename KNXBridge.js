@@ -26,12 +26,19 @@ var iotdb = require('iotdb');
 var _ = iotdb._;
 var bunyan = iotdb.bunyan;
 
-// var knx = require('knx');
+var url = require('url');
+var knx_js = require('knx.js');
 
 var logger = bunyan.createLogger({
     name: 'homestar-knx',
     module: 'KNXBridge',
 });
+
+/*
+    localIpAddress, 13671);
+  var KnxConnectionTunneling = require('knx.js').KnxConnectionTunneling;
+  var connection = new KnxConnectionTunneling('192.168.80.101', 3671, localIpAddress, 13671);
+  */
 
 /**
  *  See {iotdb.bridge.Bridge#Bridge} for documentation.
@@ -44,10 +51,30 @@ var KNXBridge = function (initd, native) {
 
     self.initd = _.defaults(initd,
         iotdb.keystore().get("bridges/KNXBridge/initd"), {
+            host: null,
+            ip: 3671,
+            tunnel: null,
             poll: 30
         }
     );
     self.native = native;   // the thing that does the work - keep this name
+
+    if (self.initd.tunnel) {
+        var turl = url.parse(self.initd.tunnel);
+        initd.tunnel_host = turl.hostname;
+        initd.tunnel_port = parseInt(turl.port);
+    }
+
+    if ((initd.tunnel_host === '') || (initd.tunnel_host === '0.0.0.0')) {
+        initd.tunnel_host = _.ipv4();
+    }
+
+    if ((initd.host === '') || (initd.host === '0.0.0.0')) {
+        initd.host = _.ipv4();
+    }
+
+    console.log("HERE:!!!", self.initd);
+    process.exit(0);
 
     if (self.native) {
         self.queue = _.queue("KNXBridge");
@@ -94,6 +121,13 @@ KNXBridge.prototype.connect = function (connectd) {
     }
 
     self._validate_connect(connectd);
+
+    self.connectd = _.defaults(
+        connectd, {
+            subscribes: [],
+        }, self.connectd
+    );
+    
 
     self._setup_polling();
     self.pull();
@@ -228,19 +262,59 @@ KNXBridge.prototype.reachable = function () {
 KNXBridge.prototype.configure = function (app) {};
 
 /* -- internals -- */
-var __singleton;
+var __knxd = {};
+var __pendingsd = {};
 
 /**
- *  If you need a singleton to access the library
+ *  This returns a connection object per ( host, ip, tunnel_host, tunnel_port )
+ *  tuple, ensuring the correct connection object exists and is connected.
+ *  It calls back with the connection object
+ *
+ *  The code is complicated because we have to keep callbacks stored 
+ *  in '__pendingsd' until the connection is actually made
  */
-KNXBridge.prototype._knx = function () {
+KNXBridge.prototype._knx = function (callback) {
     var self = this;
 
-    if (!__singleton) {
-        __singleton = knx.init();
-    }
+    var key = [ self.initd.host, "" + self.initd.port, self.initd.tunnel_host, "" + self.initd.tunnel_port ].join("@@");
 
-    return __singleton;
+    var knx = __knxd[key];
+    if (knx === undefined) {
+        var connect = false;
+
+        var pendings = __pendingsd[key];
+        if (pendings === undefined) {
+            pendings = [];
+            __pendingsd[key] = pendings;
+            connect = true;
+        }
+
+        pendings.push(callback);
+
+        if (connect) {
+            if (self.initd.tunnel_host) {
+                knx = new knx_js.KnxConnectionTunneling(
+                    self.initd.host, self.initd.port, 
+                    self.initd.tunnel_host, self.initd.tunnel_port
+                );
+            } else {
+                knx = new knx_js.KnxConnection(
+                    self.initd.host, self.initd.port
+                );
+            }
+
+            // probably should be error checking here
+            knx.Connect(function() {
+                pendings.map(function(pending) {
+                    pending(null, knx);
+                });
+
+                delete __pendingsd[key];
+            });
+        }
+    } else {
+        callback(null, knx);
+    }
 };
 
 /*

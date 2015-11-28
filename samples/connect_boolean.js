@@ -20,7 +20,7 @@ exemplar.discovered = function (bridge) {
     };
     bridge.connect({});
     bridge.push({
-        off: true,
+        // off: true,
     });
 };
 exemplar.discover();

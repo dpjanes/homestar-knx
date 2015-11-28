@@ -51,6 +51,7 @@ var KNXBridge = function (initd, native) {
 
     self.initd = _.defaults(initd,
         iotdb.keystore().get("bridges/KNXBridge/initd"), {
+            raw: false,
             host: null,
             port: 3671,
             tunnel: null,
@@ -74,6 +75,7 @@ var KNXBridge = function (initd, native) {
 
     if (self.native) {
         self.queue = _.queue("KNXBridge");
+        self.scratchd = {};
     }
 };
 
@@ -96,7 +98,7 @@ KNXBridge.prototype.discover = function () {
     }, "called");
 
     if (self.initd.host) {
-        self._knx(function(error, native) {
+        self._knx(function (error, native) {
             if (error) {
                 logger.error({
                     method: "discover",
@@ -132,6 +134,16 @@ KNXBridge.prototype.connect = function (connectd) {
     self.connectd = _.defaults(
         connectd, {
             subscribes: [],
+            data_in: function (paramd) {
+                if (self.initd.raw) {
+                    paramd.cookd = _.deepCopy(paramd.rawd);
+                }
+            },
+            data_out: function (paramd) {
+                if (self.initd.raw) {
+                    paramd.rawd = _.deepCopy(paramd.cookd);
+                }
+            },
         }, self.connectd
     );
 
@@ -142,17 +154,27 @@ KNXBridge.prototype.connect = function (connectd) {
 KNXBridge.prototype._setup_read = function () {
     var self = this;
 
-    self.native.on('status', function(address, data, datagram){
-        logger.info({
+    self.native.on('status', function (address, data, datagram) {
+        logger.debug({
             method: "_setup_read/on(status)",
             address: address,
             data: data,
             datagram: datagram,
         }, "got 'status'");
-    })
 
-    self.connectd.subscribes.map(function(knx_address) {
-        self.native.RequestStatus(device[feature].read);
+        var rawd = {};
+        rawd[address] = data;
+        var paramd = {
+            rawd: rawd,
+            cookd: {},
+            scratchd: self.scratchd,
+        };
+        self.connectd.data_in(paramd);
+        self.pulled(self.stated);
+    });
+
+    self.connectd.subscribes.map(function (knx_address) {
+        self.native.RequestStatus(knx_address);
     });
 };
 
@@ -304,9 +326,9 @@ KNXBridge.prototype._knx = function (callback) {
             logger.info({
                 method: "_knx",
                 npending: pendings.length,
-                host: self.initd.host, 
+                host: self.initd.host,
                 port: self.initd.port,
-                tunnel_host: self.initd.tunnel_host, 
+                tunnel_host: self.initd.tunnel_host,
                 tunnel_port: self.initd.tunnel_port
             }, "connecting to KNX");
 
@@ -327,9 +349,9 @@ KNXBridge.prototype._knx = function (callback) {
                 logger.info({
                     method: "_knx",
                     npending: pendings.length,
-                    host: self.initd.host, 
+                    host: self.initd.host,
                     port: self.initd.port,
-                    tunnel_host: self.initd.tunnel_host, 
+                    tunnel_host: self.initd.tunnel_host,
                     tunnel_port: self.initd.tunnel_port,
                     connected: knx.connected
                 }, "connected to KNX! (?)");

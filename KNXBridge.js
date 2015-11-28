@@ -52,7 +52,7 @@ var KNXBridge = function (initd, native) {
     self.initd = _.defaults(initd,
         iotdb.keystore().get("bridges/KNXBridge/initd"), {
             host: null,
-            ip: 3671,
+            port: 3671,
             tunnel: null,
             poll: 30
         }
@@ -274,7 +274,7 @@ var __knxd = {};
 var __pendingsd = {};
 
 /**
- *  This returns a connection object per ( host, ip, tunnel_host, tunnel_port )
+ *  This returns a connection object per ( host, port, tunnel_host, tunnel_port )
  *  tuple, ensuring the correct connection object exists and is connected.
  *  It calls back with the connection object
  *

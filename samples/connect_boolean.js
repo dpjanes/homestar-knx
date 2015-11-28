@@ -9,9 +9,10 @@
 var Bridge = require('../KNXBridge').Bridge;
 
 var exemplar = new Bridge({
-    host: '192.168.80.101',
-    port: 3671,
-    tunnel: "udp://0.0.0.0:13671",
+    // see ./README.md
+    // host: '192.168.80.101',
+    // port: 3671,
+    // tunnel: "udp://0.0.0.0:13671",
 });
 exemplar.discovered = function (bridge) {
     console.log("+", "got one", bridge.meta());

@@ -20,7 +20,7 @@ exemplar.discovered = function (bridge) {
         console.log("+", "state-change", state);
     };
     bridge.connect({
-        subscribes: '3/0/1',
+        subscribes: [ '3/0/1' ],
     })
     bridge.push({
         // off: true,

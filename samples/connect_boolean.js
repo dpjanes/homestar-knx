@@ -11,7 +11,7 @@ var Bridge = require('../KNXBridge').Bridge;
 var exemplar = new Bridge({
     host: '192.168.80.101',
     ip: '3671',
-    tunnel: "tcp://0.0.0.0:13671",
+    tunnel: "udp://0.0.0.0:13671",
 });
 exemplar.discovered = function (bridge) {
     console.log("+", "got one", bridge.meta());

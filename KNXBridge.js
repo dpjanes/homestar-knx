@@ -73,9 +73,6 @@ var KNXBridge = function (initd, native) {
         initd.host = _.ipv4();
     }
 
-    console.log("HERE:!!!", self.initd);
-    process.exit(0);
-
     if (self.native) {
         self.queue = _.queue("KNXBridge");
     }
@@ -99,16 +96,27 @@ KNXBridge.prototype.discover = function () {
         method: "discover"
     }, "called");
 
-    /*
-     *  This is the core bit of discovery. As you find new
-     *  thimgs, make a new KNXBridge and call 'discovered'.
-     *  The first argument should be self.initd, the second
-     *  the thing that you do work with
-     */
-    var s = self._knx();
-    s.on('something', function (native) {
-        self.discovered(new KNXBridge(self.initd, native));
-    });
+    if (self.initd.host) {
+        self._knx(function(error, native) {
+            if (error) {
+                logger.error({
+                    method: "discover",
+                    initd: self.initd,
+                    error: _.error.message(error),
+                }, "no way to connect to KNX");
+
+                return;
+            }
+
+            self.discovered(new KNXBridge(self.initd, native));
+        });
+    } else {
+        logger.error({
+            method: "discover",
+            initd: self.initd,
+            cause: "host and port expected",
+        }, "no way to connect to KNX");
+    }
 };
 
 /**
@@ -127,7 +135,6 @@ KNXBridge.prototype.connect = function (connectd) {
             subscribes: [],
         }, self.connectd
     );
-
 
     self._setup_polling();
     self.pull();
@@ -193,6 +200,8 @@ KNXBridge.prototype.push = function (pushd, done) {
         method: "push",
         pushd: pushd
     }, "push");
+
+    return;
 
     var qitem = {
         // if you set "id", new pushes will unqueue old pushes with the same id
@@ -277,6 +286,7 @@ KNXBridge.prototype._knx = function (callback) {
 
     var key = [self.initd.host, "" + self.initd.port, self.initd.tunnel_host, "" + self.initd.tunnel_port].join("@@");
 
+
     var knx = __knxd[key];
     if (knx === undefined) {
         var connect = false;
@@ -291,6 +301,15 @@ KNXBridge.prototype._knx = function (callback) {
         pendings.push(callback);
 
         if (connect) {
+            logger.info({
+                method: "_knx",
+                npending: pendings.length,
+                host: self.initd.host, 
+                port: self.initd.port,
+                tunnel_host: self.initd.tunnel_host, 
+                tunnel_port: self.initd.tunnel_port
+            }, "connecting to KNX");
+
             if (self.initd.tunnel_host) {
                 knx = new knx_js.KnxConnectionTunneling(
                     self.initd.host, self.initd.port,
@@ -302,11 +321,31 @@ KNXBridge.prototype._knx = function (callback) {
                 );
             }
 
+
             // probably should be error checking here
             knx.Connect(function () {
-                pendings.map(function (pending) {
-                    pending(null, knx);
-                });
+                logger.info({
+                    method: "_knx",
+                    npending: pendings.length,
+                    host: self.initd.host, 
+                    port: self.initd.port,
+                    tunnel_host: self.initd.tunnel_host, 
+                    tunnel_port: self.initd.tunnel_port,
+                    connected: knx.connected
+                }, "connected to KNX! (?)");
+
+                if (knx.connected) {
+                    __knxd[key] = knx;
+
+                    pendings.map(function (pending) {
+                        pending(null, knx);
+                    });
+                } else {
+                    var error = new Error("could not establish a connection");
+                    pendings.map(function (pending) {
+                        pending(error, null);
+                    });
+                }
 
                 delete __pendingsd[key];
             });

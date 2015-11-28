@@ -57,7 +57,7 @@ var KNXBridge = function (initd, native) {
             poll: 30
         }
     );
-    self.native = native;   // the thing that does the work - keep this name
+    self.native = native; // the thing that does the work - keep this name
 
     if (self.initd.tunnel) {
         var turl = url.parse(self.initd.tunnel);
@@ -127,7 +127,7 @@ KNXBridge.prototype.connect = function (connectd) {
             subscribes: [],
         }, self.connectd
     );
-    
+
 
     self._setup_polling();
     self.pull();
@@ -201,7 +201,7 @@ KNXBridge.prototype.push = function (pushd, done) {
             self._pushd(pushd);
             self.queue.finished(qitem);
         },
-        code: function() {
+        code: function () {
             done();
         },
     };
@@ -213,8 +213,7 @@ KNXBridge.prototype.push = function (pushd, done) {
  *  consider just moving this up into push
  */
 KNXBridge.prototype._push = function (pushd) {
-    if (pushd.on !== undefined) {
-    }
+    if (pushd.on !== undefined) {}
 };
 
 /**
@@ -276,7 +275,7 @@ var __pendingsd = {};
 KNXBridge.prototype._knx = function (callback) {
     var self = this;
 
-    var key = [ self.initd.host, "" + self.initd.port, self.initd.tunnel_host, "" + self.initd.tunnel_port ].join("@@");
+    var key = [self.initd.host, "" + self.initd.port, self.initd.tunnel_host, "" + self.initd.tunnel_port].join("@@");
 
     var knx = __knxd[key];
     if (knx === undefined) {
@@ -294,7 +293,7 @@ KNXBridge.prototype._knx = function (callback) {
         if (connect) {
             if (self.initd.tunnel_host) {
                 knx = new knx_js.KnxConnectionTunneling(
-                    self.initd.host, self.initd.port, 
+                    self.initd.host, self.initd.port,
                     self.initd.tunnel_host, self.initd.tunnel_port
                 );
             } else {
@@ -304,8 +303,8 @@ KNXBridge.prototype._knx = function (callback) {
             }
 
             // probably should be error checking here
-            knx.Connect(function() {
-                pendings.map(function(pending) {
+            knx.Connect(function () {
+                pendings.map(function (pending) {
                     pending(null, knx);
                 });
 

@@ -9,7 +9,7 @@
 var Bridge = require('../KNXBridge').Bridge;
 
 var exemplar = new Bridge({
-    // see ./README.md
+    // -- see ./README.md --
     // host: '192.168.80.101',
     // port: 3671,
     // tunnel: "udp://0.0.0.0:13671",
@@ -19,7 +19,9 @@ exemplar.discovered = function (bridge) {
     bridge.pulled = function (state) {
         console.log("+", "state-change", state);
     };
-    bridge.connect({});
+    bridge.connect({
+        subscribes: '3/0/1',
+    })
     bridge.push({
         // off: true,
     });

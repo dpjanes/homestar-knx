@@ -54,7 +54,6 @@ var KNXBridge = function (initd, native) {
             host: null,
             port: 3671,
             tunnel: null,
-            poll: 30
         }
     );
     self.native = native; // the thing that does the work - keep this name
@@ -136,24 +135,25 @@ KNXBridge.prototype.connect = function (connectd) {
         }, self.connectd
     );
 
-    self._setup_polling();
+    self._setup_read();
     self.pull();
 };
 
-KNXBridge.prototype._setup_polling = function () {
+KNXBridge.prototype._setup_read = function () {
     var self = this;
-    if (!self.initd.poll) {
-        return;
-    }
 
-    var timer = setInterval(function () {
-        if (!self.native) {
-            clearInterval(timer);
-            return;
-        }
+    self.native.on('status', function(address, data, datagram){
+        logger.info({
+            method: "_setup_read/on(status)",
+            address: address,
+            data: data,
+            datagram: datagram,
+        }, "got 'status'");
+    })
 
-        self.pull();
-    }, self.initd.poll * 1000);
+    self.connectd.subscribes.map(function(knx_address) {
+        self.native.RequestStatus(device[feature].read);
+    });
 };
 
 KNXBridge.prototype._forget = function () {

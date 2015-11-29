@@ -9,7 +9,15 @@
 var iotdb = require('iotdb');
 var iot = iotdb.iot();
 
-var things = iot.connect('KNXLight');
+var things = iot.connect({
+    model: 'KNXBoolean',
+    knx: {
+        "value": {
+            "write": "3/0/1",
+            "read": "3/0/0",
+        },
+    },
+});
 things.on("state", function (thing) {
     console.log("+", "state", thing.thing_id(), "\n ", thing.state("istate"));
 });

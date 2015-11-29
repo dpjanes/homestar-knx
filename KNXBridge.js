@@ -3,7 +3,7 @@
  *
  *  David Janes
  *  IOTDB.org
- *  YYYY-MM-DD
+ *  2015-11-29
  *
  *  Copyright [2013-2015] [David P. Janes]
  *
@@ -61,15 +61,15 @@ var KNXBridge = function (initd, native) {
 
     if (self.initd.tunnel) {
         var turl = url.parse(self.initd.tunnel);
-        initd.tunnel_host = turl.hostname;
-        initd.tunnel_port = parseInt(turl.port);
+        self.initd.tunnel_host = turl.hostname;
+        self.initd.tunnel_port = parseInt(turl.port);
     }
 
-    if ((initd.tunnel_host === '') || (initd.tunnel_host === '0.0.0.0')) {
+    if ((self.initd.tunnel_host === '') || (self.initd.tunnel_host === '0.0.0.0')) {
         initd.tunnel_host = _.ipv4();
     }
 
-    if ((initd.host === '') || (initd.host === '0.0.0.0')) {
+    if ((self.initd.host === '') || (self.initd.host === '0.0.0.0')) {
         initd.host = _.ipv4();
     }
 

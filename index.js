@@ -24,7 +24,8 @@
 
 exports.Bridge = require('./KNXBridge').Bridge;
 exports.bindings = [
-    require('./models/KNXBoolean').binding,
+    require('./models/KNXValueBoolean').binding,
+    require('./models/KNXValueInteger').binding,
 ];
 
 exports.iotdb = require("iotdb");

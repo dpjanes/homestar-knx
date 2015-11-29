@@ -10,7 +10,7 @@ var iotdb = require('iotdb');
 var iot = iotdb.iot();
 
 var things = iot.connect({
-    model: 'KNXBoolean',
+    model: 'KNXValueBoolean',
     knx: {
         "value": {
             "write": "3/0/1",

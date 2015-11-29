@@ -51,10 +51,11 @@ var KNXBridge = function (initd, native) {
 
     self.initd = _.defaults(initd,
         iotdb.keystore().get("bridges/KNXBridge/initd"), {
-            raw: false,
             host: null,
             port: 3671,
             tunnel: null,
+            raw: false,     // pass GAs unchanged (debugging mainly)
+            knx: {},        // trés important
         }
     );
     self.native = native; // the thing that does the work - keep this name
@@ -76,6 +77,10 @@ var KNXBridge = function (initd, native) {
     if (self.native) {
         self.queue = _.queue("KNXBridge");
         self.scratchd = {};
+
+        // preprocess knx
+        // console.log(self.initd.knx);
+        // process.exit(0);
     }
 };
 

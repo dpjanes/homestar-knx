@@ -1,5 +1,5 @@
 /*
- *  KNXBoolean.js
+ *  KNXValueInteger.js
  *
  *  David Janes
  *  IOTDB
@@ -8,8 +8,8 @@
 
 var iotdb = require("iotdb");
 
-exports.Model = iotdb.make_model('KNXBoolean')
-    .io("value", iotdb.boolean.value)
+exports.Model = iotdb.make_model('KNXValueBoolean')
+    .io("value", iotdb.integer.value)
     .make();
 
 exports.binding = {

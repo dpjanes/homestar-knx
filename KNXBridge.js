@@ -231,28 +231,42 @@ KNXBridge.prototype.push = function (pushd, done) {
         pushd: pushd
     }, "push");
 
-    return;
+    var paramd = {
+        rawd: {},
+        cookd: pushd,
+        scratchd: self.scratchd,
+    };
+    self.connectd.data_out(paramd);
+    self._send(paramd, done);
+
+    _.mapObject(self.paramd.rawd, function (value, key) {
+        self._send(key, value);
+    });
+
+    done(); // XXX - this needs to be counted per key
+};
+
+KNXBridge.prototype._send = function (key, value) {
+    var self = this;
 
     var qitem = {
-        // if you set "id", new pushes will unqueue old pushes with the same id
-        // id: self.number, 
         run: function () {
-            self._pushd(pushd);
+            logger.info({
+                method: "_send",
+                key: key,
+                value: value,
+            }, "send");
+
+            if (self.native) {
+                self.native.Action(key, value);
+            }
             self.queue.finished(qitem);
         },
-        code: function () {
-            done();
+        coda: function () {
+            // done();
         },
     };
     self.queue.add(qitem);
-};
-
-/**
- *  Do the work of pushing. If you don't need queueing
- *  consider just moving this up into push
- */
-KNXBridge.prototype._push = function (pushd) {
-    if (pushd.on !== undefined) {}
 };
 
 /**

@@ -154,13 +154,14 @@ KNXBridge.prototype.connect = function (connectd) {
 KNXBridge.prototype._setup_read = function () {
     var self = this;
 
-    self.native.on('status', function (address, data, datagram) {
+
+    var _on_change = function (address, data, datagram) {
         logger.debug({
             method: "_setup_read/on(status)",
             address: address,
             data: data,
             datagram: datagram,
-        }, "got 'status'");
+        }, "got 'status'/'event'");
 
         var rawd = {};
         rawd[address] = data;
@@ -171,6 +172,13 @@ KNXBridge.prototype._setup_read = function () {
         };
         self.connectd.data_in(paramd);
         self.pulled(self.stated);
+    };
+
+    self.native.on('status', function (address, data, datagram) {
+        _on_change(address, data, datagram);
+    });
+    self.native.on('event', function (address, data, datagram) {
+        _on_change(address, data, datagram);
     });
 
     self.connectd.subscribes.map(function (knx_address) {

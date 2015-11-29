@@ -237,9 +237,8 @@ KNXBridge.prototype.push = function (pushd, done) {
         scratchd: self.scratchd,
     };
     self.connectd.data_out(paramd);
-    self._send(paramd, done);
 
-    _.mapObject(self.paramd.rawd, function (value, key) {
+    _.mapObject(paramd.rawd, function (value, key) {
         self._send(key, value);
     });
 

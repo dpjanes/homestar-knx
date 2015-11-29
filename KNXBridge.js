@@ -171,7 +171,7 @@ KNXBridge.prototype._setup_read = function () {
             scratchd: self.scratchd,
         };
         self.connectd.data_in(paramd);
-        self.pulled(self.stated);
+        self.pulled(paramd.cookd);
     };
 
     self.native.on('status', function (address, data, datagram) {

@@ -8,7 +8,7 @@
 
 var iotdb = require("iotdb");
 
-exports.Model = iotdb.make_model('KNXValueBoolean')
+exports.Model = iotdb.make_model('KNXValueInteger')
     .io("value", iotdb.integer.value)
     .make();
 

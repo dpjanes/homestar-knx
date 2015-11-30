@@ -31,6 +31,6 @@ things.on("thing", function (thing) {
 
     var count = 0;
     setInterval(function () {
-        thing.set(':on', count++ % 2);
+        thing.set(':value', count++ % 2);
     }, 2500);
 });

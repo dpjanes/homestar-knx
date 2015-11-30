@@ -174,15 +174,11 @@ KNXBridge.prototype._data_in = function (paramd) {
     if (self.initd.raw) {
         paramd.cookd = _.deepCopy(paramd.rawd);
     } else {
+        paramd.cookd['@__validate'] = true;
         _.mapObject(paramd.rawd, function(value, knx_ga) {
+            // it's OK - data can come that we don't know about
             var coded = self.knx_readd[knx_ga];
             if (!coded) {
-                logger.error({
-                    method: "_data_read",
-                    knx_ga: knx_ga,
-                    value: value,
-                    cause: "KNXBridge error maybe, or KNX itself has gone off the rails",
-                }, "unknown GA received - somewhat ignorable error");
                 return;
             }
 

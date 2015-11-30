@@ -54,10 +54,10 @@ var KNXBridge = function (initd, native) {
             host: null,
             port: 3671,
             tunnel: null,
-            raw: false,     // pass GAs unchanged (debugging mainly)
-            uuid: null,     // seed for the Thing-ID
-            number: 0,      // can be used to share a single UUID
-            knx: {},        // trés important
+            raw: false, // pass GAs unchanged (debugging mainly)
+            uuid: null, // seed for the Thing-ID
+            number: 0, // can be used to share a single UUID
+            knx: {}, // trés important
         }
     );
     self.native = native; // the thing that does the work - keep this name
@@ -82,7 +82,7 @@ var KNXBridge = function (initd, native) {
 
     if (!_.is.Empty(self.initd.knx)) {
         if (_.is.Dictionary(self.initd.knx)) {
-            _.mapObject(self.initd.knx, function(coded, code) {
+            _.mapObject(self.initd.knx, function (coded, code) {
                 coded = _.deepCopy(coded);
                 coded.code = code;
 
@@ -104,7 +104,7 @@ var KNXBridge = function (initd, native) {
             logger.error({
                 method: "KXBridge",
                 initd: self.initd,
-                cause: "caller should initialize with an 'uuid'", 
+                cause: "caller should initialize with an 'uuid'",
             }, "missing initd.uuid - problematic");
         }
     }
@@ -185,7 +185,7 @@ KNXBridge.prototype._data_in = function (paramd) {
         paramd.cookd = _.deepCopy(paramd.rawd);
     } else {
         paramd.cookd['@__validate'] = true;
-        _.mapObject(paramd.rawd, function(value, knx_ga) {
+        _.mapObject(paramd.rawd, function (value, knx_ga) {
             // it's OK - data can come that we don't know about
             var coded = self.knx_readd[knx_ga];
             if (!coded) {
@@ -243,7 +243,7 @@ KNXBridge.prototype._setup_read = function () {
         self.native.RequestStatus(knx_ga);
     });
 
-    _.mapObject(self.knx_readd, function(coded, knx_ga) {
+    _.mapObject(self.knx_readd, function (coded, knx_ga) {
         logger.info({
             method: "_setup_read",
             knx_ga: knx_ga,

@@ -23,7 +23,7 @@ exemplar.discovered = function (bridge) {
     };
     bridge.connect({
         subscribes: ['3/0/1'],
-    })
+    });
     bridge.push({
         // off: true,
     });

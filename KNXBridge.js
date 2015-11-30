@@ -172,17 +172,14 @@ KNXBridge.prototype._data_in = function (paramd) {
     var self = this;
 
     if (self.initd.raw) {
-        console.log("HERE:0");
         paramd.cookd = _.deepCopy(paramd.rawd);
     } else {
-        console.log("HERE:A", paramd.rawd);
-        _.mapObject(paramd.rawd, function(value, ga) {
-            var coded = self.knx_readd[ga];
-            console.log("HERE:B", value, ga, coded);
+        _.mapObject(paramd.rawd, function(value, knx_ga) {
+            var coded = self.knx_readd[knx_ga];
             if (!coded) {
-                logger.debug({
+                logger.error({
                     method: "_data_read",
-                    ga: ga,
+                    knx_ga: knx_ga,
                     value: value,
                     cause: "KNXBridge error maybe, or KNX itself has gone off the rails",
                 }, "unknown GA received - somewhat ignorable error");
@@ -192,8 +189,6 @@ KNXBridge.prototype._data_in = function (paramd) {
             paramd.cookd[coded.code] = value;
         });
     }
-
-    console.log("HERE:C", paramd.cookd);
 };
 
 KNXBridge.prototype._data_out = function (paramd) {
@@ -234,12 +229,20 @@ KNXBridge.prototype._setup_read = function () {
         _on_change(address, data, datagram);
     });
 
-    self.connectd.subscribes.map(function (knx_address) {
-        self.native.RequestStatus(knx_address);
+    self.connectd.subscribes.map(function (knx_ga) {
+        logger.info({
+            method: "_setup_read",
+            knx_ga: knx_ga,
+        }, "subscribe to GA (connectd.subscribes)");
+        self.native.RequestStatus(knx_ga);
     });
 
-    _.mapObject(self.knx_readd, function(coded, ga) {
-        self.native.RequestStatus(ga);
+    _.mapObject(self.knx_readd, function(coded, knx_ga) {
+        logger.info({
+            method: "_setup_read",
+            knx_ga: knx_ga,
+        }, "subscribe to GA (knx_readd)");
+        self.native.RequestStatus(knx_ga);
     });
 };
 

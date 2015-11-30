@@ -55,7 +55,8 @@ var KNXBridge = function (initd, native) {
             port: 3671,
             tunnel: null,
             raw: false,     // pass GAs unchanged (debugging mainly)
-            uuid: null,       // seed for the ID
+            uuid: null,     // seed for the Thing-ID
+            number: 0,      // can be used to share a single UUID
             knx: {},        // trés important
         }
     );
@@ -355,11 +356,11 @@ KNXBridge.prototype.meta = function () {
     }
 
     return {
-        "iot:thing-id": _.id.thing_urn.unique("KNX", self.initd.uuid),
+        "iot:thing-id": _.id.thing_urn.unique("KNX", self.initd.uuid, self.initd.number),
+        "iot:device-id": _.id.thing_urn.unique("KNX", self.initd.uuid),
         "schema:name": self.native.name || "KNX",
 
         // "iot:thing-number": self.initd.number,
-        // "iot:device-id": _.id.thing_urn.unique("KNX", self.native.uuid),
         // "schema:manufacturer": "",
         // "schema:model": "",
     };

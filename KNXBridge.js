@@ -169,6 +169,8 @@ KNXBridge.prototype.connect = function (connectd) {
 };
 
 KNXBridge.prototype._data_in = function (paramd) {
+    var self = this;
+
     if (self.initd.raw) {
         console.log("HERE:0");
         paramd.cookd = _.deepCopy(paramd.rawd);
@@ -195,6 +197,8 @@ KNXBridge.prototype._data_in = function (paramd) {
 };
 
 KNXBridge.prototype._data_out = function (paramd) {
+    var self = this;
+
     if (self.initd.raw) {
         paramd.rawd = _.deepCopy(paramd.cookd);
         return;

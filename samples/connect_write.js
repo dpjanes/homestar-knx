@@ -14,6 +14,7 @@ var exemplar = new Bridge({
     // port: 3671,
     // tunnel: "udp://0.0.0.0:13671",
     raw: true, // allow GA addressing without model
+    uuid: "779C4E4F-9CF5-489F-83AB-2A934B27B2B3",
 });
 exemplar.discovered = function (bridge) {
     console.log("+", "got one", bridge.meta());

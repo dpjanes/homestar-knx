@@ -55,6 +55,7 @@ var KNXBridge = function (initd, native) {
             port: 3671,
             tunnel: null,
             raw: false,     // pass GAs unchanged (debugging mainly)
+            uuid: null,       // seed for the ID
             knx: {},        // trés important
         }
     );
@@ -97,6 +98,14 @@ var KNXBridge = function (initd, native) {
     if (self.native) {
         self.queue = _.queue("KNXBridge");
         self.scratchd = {};
+
+        if (!self.initd.uuid) {
+            logger.error({
+                method: "KXBridge",
+                initd: self.initd,
+                cause: "caller should initialize with an 'uuid'", 
+            }, "missing initd.uuid - problematic");
+        }
     }
 };
 
@@ -346,7 +355,7 @@ KNXBridge.prototype.meta = function () {
     }
 
     return {
-        "iot:thing-id": _.id.thing_urn.unique("KNX", self.native.uuid, self.initd.number),
+        "iot:thing-id": _.id.thing_urn.unique("KNX", self.initd.uuid),
         "schema:name": self.native.name || "KNX",
 
         // "iot:thing-number": self.initd.number,

@@ -1,7 +1,9 @@
 /*
  *  How to use this module in IOTDB / HomeStar
  *  This is the best way to do this
- *  Note: to work, this package must have been installed by 'homestar install' 
+ *  Note: 
+ *  - to work, this package must have been installed by 'homestar install' 
+ *  - use 'uuidgen' to create unique IDs for your things
  */
 
 "use strict";
@@ -10,6 +12,7 @@ var iotdb = require('iotdb');
 
 var things = iotdb.connect({
     model: 'KNXValueBoolean',
+    uuid: "207BE1C3-B55B-40FE-8DA3-843E4311D67C",
     knx: {
         "value": {
             "write": "3/0/1",

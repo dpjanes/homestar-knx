@@ -170,10 +170,13 @@ KNXBridge.prototype.connect = function (connectd) {
 
 KNXBridge.prototype._data_in = function (paramd) {
     if (self.initd.raw) {
+        console.log("HERE:0");
         paramd.cookd = _.deepCopy(paramd.rawd);
     } else {
-        _.mapObject(self.initd.raw, function(value, ga) {
+        console.log("HERE:A", paramd.rawd);
+        _.mapObject(paramd.rawd, function(value, ga) {
             var coded = self.knx_readd[ga];
+            console.log("HERE:B", value, ga, coded);
             if (!coded) {
                 logger.debug({
                     method: "_data_read",
@@ -188,9 +191,7 @@ KNXBridge.prototype._data_in = function (paramd) {
         });
     }
 
-    if (!_.is.Empty(paramd.cookd)) {
-        self.pulled(paramd.cookd);
-    }
+    console.log("HERE:C", paramd.cookd);
 };
 
 KNXBridge.prototype._data_out = function (paramd) {

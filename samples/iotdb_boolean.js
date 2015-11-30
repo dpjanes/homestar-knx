@@ -7,9 +7,8 @@
 "use strict";
 
 var iotdb = require('iotdb');
-var iot = iotdb.iot();
 
-var things = iot.connect({
+var things = iotdb.connect({
     model: 'KNXValueBoolean',
     knx: {
         "value": {

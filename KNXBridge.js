@@ -230,7 +230,7 @@ KNXBridge.prototype._setup_read = function () {
         self.native.RequestStatus(knx_address);
     });
 
-    _.mapObject(knx_readd, function(coded, ga) {
+    _.mapObject(self.knx_readd, function(coded, ga) {
         self.native.RequestStatus(ga);
     });
 };

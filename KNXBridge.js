@@ -171,23 +171,26 @@ KNXBridge.prototype.connect = function (connectd) {
 KNXBridge.prototype._data_in = function (paramd) {
     if (self.initd.raw) {
         paramd.cookd = _.deepCopy(paramd.rawd);
-        return;
-    };
+    } else {
+        _.mapObject(self.initd.raw, function(value, ga) {
+            var coded = self.knx_readd[ga];
+            if (!coded) {
+                logger.debug({
+                    method: "_data_read",
+                    ga: ga,
+                    value: value,
+                    cause: "KNXBridge error maybe, or KNX itself has gone off the rails",
+                }, "unknown GA received - somewhat ignorable error");
+                return;
+            }
 
-    _.mapObject(self.initd.raw, function(value, ga) {
-        var coded = self.knx_readd[ga];
-        if (!coded) {
-            logger.debug({
-                method: "_data_read",
-                ga: ga,
-                value: value,
-                cause: "KNXBridge error maybe, or KNX itself has gone off the rails",
-            }, "unknown GA received - somewhat ignorable error");
-            return;
-        }
+            paramd.cookd[coded.code] = value;
+        });
+    }
 
-        paramd[coded.code] = value;
-    });
+    if (!_.is.Empty(paramd.cookd)) {
+        self.pulled(paramd.cookd);
+    }
 };
 
 KNXBridge.prototype._data_out = function (paramd) {

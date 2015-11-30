@@ -15,8 +15,8 @@ var things = iotdb.connect({
     uuid: "207BE1C3-B55B-40FE-8DA3-843E4311D67C",
     knx: {
         "value": {
-            "write": "3/0/1",
-            "read": "3/0/0",
+            "write": "3/0/0",
+            "read": "3/0/1",
         },
     },
 });

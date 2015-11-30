@@ -28,4 +28,9 @@ things.on("meta", function (thing) {
 });
 things.on("thing", function (thing) {
     console.log("+", "discovered", thing.thing_id(), "\n ", thing.state("meta"));
+
+    var count = 0;
+    setInterval(function () {
+        thing.set(':on', count++ % 2);
+    }, 2500);
 });

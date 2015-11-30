@@ -87,7 +87,7 @@ var KNXBridge = function (initd, native) {
                 coded.code = code;
 
                 if (coded.write) {
-                    self.knx_writed[coded.write] = coded;
+                    self.knx_writed[coded.code] = coded;
                 }
                 if (coded.read) {
                     self.knx_readd[coded.read] = coded;
@@ -202,7 +202,15 @@ KNXBridge.prototype._data_out = function (paramd) {
 
     if (self.initd.raw) {
         paramd.rawd = _.deepCopy(paramd.cookd);
-        return;
+    } else {
+        _.mapObject(paramd.cookd, function (value, code) {
+            var coded = self.knx_writed[code];
+            if (!coded) {
+                return;
+            }
+
+            paramd.rawd[coded.write] = value;
+        });
     }
 };
 

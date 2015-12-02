@@ -1,9 +1,9 @@
 --
---  compile to JSON with 'iotql-model KNXShutter.iotql'
+--  compile to JSON with 'iotql-model KNXSimpleShutter.iotql'
 --
-CREATE MODEL KNXShutter WITH
-    schema:name = "KNXShutter",
-    schema:description = "Shutter",
+CREATE MODEL KNXSimpleShutter WITH
+    schema:name = "KNXSimpleShutter",
+    schema:description = "SimpleShutter",
     iot:facet = iot-facet:climate
 ATTRIBUTE "up-down" WITH
     iot:purpose = iot-purpose:value,

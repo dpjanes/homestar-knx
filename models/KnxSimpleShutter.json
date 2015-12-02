@@ -1,7 +1,7 @@
 {
   "@context": {
-    "@base": "file:///knx-shutter",
-    "@vocab": "file:///knx-shutter#",
+    "@base": "file:///knx-simple-shutter",
+    "@vocab": "file:///knx-simple-shutter#",
     "iot": "https://iotdb.org/pub/iot#",
     "schema": "http://schema.org/",
     "iot-purpose": "https://iotdb.org/pub/iot-purpose#",
@@ -21,8 +21,8 @@
   },
   "@id": "",
   "@type": "iot:Model",
-  "schema:name": "KNXShutter",
-  "schema:description": "Shutter",
+  "schema:name": "KNXSimpleShutter",
+  "schema:description": "SimpleShutter",
   "iot:facet": [
     "iot-facet:climate"
   ],

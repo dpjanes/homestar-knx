@@ -317,12 +317,15 @@ KNXBridge.prototype.push = function (pushd, done) {
         scratchd: self.scratchd,
     };
 
+    console.log("HERE:A.1", paramd.cookd);
     cookd = self.connectd.pre_out(paramd);
     if (cookd !== undefined) {
         paramd.cookd = cookd;
     }
-    
+
+    console.log("HERE:A.2", paramd.cookd);
     self.connectd.data_out(paramd);
+    console.log("HERE:A.3", paramd.rawd);
 
     _.mapObject(paramd.rawd, function (value, key) {
         self._send(key, value);

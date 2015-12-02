@@ -28,6 +28,7 @@ exports.bindings = [
     require('./models/KNXValueInteger').binding,
     require('./models/KNXLight').binding,
     require('./models/KNXSimpleShutter').binding,
+    require('./models/KNXShutter').binding,
 ];
 
 exports.iotdb = require("iotdb");

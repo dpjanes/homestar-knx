@@ -168,6 +168,12 @@ KNXBridge.prototype.connect = function (connectd) {
             data_in: function (paramd) {
                 self._data_in(paramd);
             },
+            post_in: function (paramd) {
+                return paramd.cookd;
+            },
+            pre_out: function (paramd) {
+                return paramd.cookd;
+            },
             data_out: function (paramd) {
                 self._data_out(paramd);
             },
@@ -310,6 +316,12 @@ KNXBridge.prototype.push = function (pushd, done) {
         cookd: pushd,
         scratchd: self.scratchd,
     };
+
+    cookd = self.connectd.pre_out(paramd);
+    if (cookd !== undefined) {
+        paramd.cookd = cookd;
+    }
+    
     self.connectd.data_out(paramd);
 
     _.mapObject(paramd.rawd, function (value, key) {

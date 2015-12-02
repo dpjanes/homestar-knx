@@ -1,0 +1,71 @@
+{
+  "@context": {
+    "@base": "file:///knx-shutter",
+    "@vocab": "file:///knx-shutter#",
+    "iot": "https://iotdb.org/pub/iot#",
+    "schema": "http://schema.org/",
+    "iot-purpose": "https://iotdb.org/pub/iot-purpose#",
+    "iot-facet": "https://iotdb.org/pub/iot-facet#",
+    "iot:facet": {
+      "@id": "https://iotdb.org/pub/iot#facet",
+      "@type": "@id"
+    },
+    "iot:purpose": {
+      "@id": "https://iotdb.org/pub/iot#purpose",
+      "@type": "@id"
+    },
+    "iot:type": {
+      "@id": "https://iotdb.org/pub/iot#type",
+      "@type": "@id"
+    }
+  },
+  "@id": "",
+  "@type": "iot:Model",
+  "schema:name": "KNXShutter",
+  "schema:description": "Shutter",
+  "iot:facet": [
+    "iot-facet:climate"
+  ],
+  "iot:attribute": [
+    {
+      "@type": "iot:Attribute",
+      "@id": "#up-down",
+      "iot:purpose": "iot-purpose:value",
+      "iot:type": "iot:type.boolean",
+      "iot:read": true,
+      "iot:write": true
+    },
+    {
+      "@type": "iot:Attribute",
+      "@id": "#stop",
+      "iot:purpose": "iot-purpose:value",
+      "iot:type": "iot:type.boolean",
+      "iot:read": true,
+      "iot:write": true
+    },
+    {
+      "@type": "iot:Attribute",
+      "@id": "#fully-down",
+      "iot:purpose": "iot-purpose:value",
+      "iot:type": "iot:type.bolean",
+      "iot:write": false,
+      "iot:read": true
+    },
+    {
+      "@type": "iot:Attribute",
+      "@id": "#fully-up",
+      "iot:purpose": "iot-purpose:value",
+      "iot:type": "iot:type.bolean",
+      "iot:write": false,
+      "iot:read": true
+    },
+    {
+      "@type": "iot:Attribute",
+      "@id": "#operating-direction",
+      "iot:purpose": "iot-purpose:value",
+      "iot:type": "iot:type.bolean",
+      "iot:write": false,
+      "iot:read": true
+    }
+  ]
+}

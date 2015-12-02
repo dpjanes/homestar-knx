@@ -12,7 +12,7 @@ exports.binding = {
     bridge: require('../KNXBridge').Bridge,
     model: require('./KnxShutter.json'),
     connectd: {
-        pre_out: function(paramd) {
+        pre_out: function (paramd) {
             var cookd = {};
 
             if (paramd.cookd.position !== undefined) {

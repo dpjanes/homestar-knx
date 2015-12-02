@@ -318,7 +318,8 @@ KNXBridge.prototype.push = function (pushd, done) {
     };
 
     console.log("HERE:A.1", paramd.cookd);
-    cookd = self.connectd.pre_out(paramd);
+
+    var cookd = self.connectd.pre_out(paramd);
     if (cookd !== undefined) {
         paramd.cookd = cookd;
     }

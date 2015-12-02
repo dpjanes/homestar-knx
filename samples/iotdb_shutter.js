@@ -15,28 +15,28 @@ var things = iotdb.connect({
     uuid: "66790855-2AB7-4EB6-99C7-9DD2094F2F40",
     knx: {
         "up-down": {
-            write: '1/2/0', 
-            read:'1/2/3'
+            write: '1/2/0',
+            read: '1/2/3'
         }, // 0/1
         "stop": {
-            write: '1/2/1', 
-            read:'1/2/1'
+            write: '1/2/1',
+            read: '1/2/1'
         }, // 0/1
         "position": {
-            write: '1/2/8', 
-            read:'1/2/4'
+            write: '1/2/8',
+            read: '1/2/4'
         }, // 0-255
         "fully-down": {
-            write: null, 
-            read:'1/2/7'
+            write: null,
+            read: '1/2/7'
         }, // 0/1
         "fully-up": {
-            write: null, 
-            read:'1/2/6'
+            write: null,
+            read: '1/2/6'
         }, // 0/1
         "direction": {
-            write: null, 
-            read:'1/2/3'
+            write: null,
+            read: '1/2/3'
         }, // 0/1
     },
 });

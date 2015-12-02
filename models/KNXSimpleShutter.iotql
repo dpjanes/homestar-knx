@@ -13,17 +13,17 @@ ATTRIBUTE "stop" WITH
     iot:type = iot:type.boolean
 ATTRIBUTE "fully-down" WITH
     iot:purpose = iot-purpose:value,
-    iot:type = iot:type.bolean,
+    iot:type = iot:type.boolean,
     iot:write = false,
     iot:read = true
 ATTRIBUTE "fully-up" WITH
     iot:purpose = iot-purpose:value,
-    iot:type = iot:type.bolean,
+    iot:type = iot:type.boolean,
     iot:write = false,
     iot:read = true
 ATTRIBUTE "operating-direction" WITH
     iot:purpose = iot-purpose:value,
-    iot:type = iot:type.bolean,
+    iot:type = iot:type.boolean,
     iot:write = false,
     iot:read = true
 ;

@@ -47,7 +47,7 @@
       "@type": "iot:Attribute",
       "@id": "#fully-down",
       "iot:purpose": "iot-purpose:value",
-      "iot:type": "iot:type.bolean",
+      "iot:type": "iot:type.boolean",
       "iot:write": false,
       "iot:read": true
     },
@@ -55,7 +55,7 @@
       "@type": "iot:Attribute",
       "@id": "#fully-up",
       "iot:purpose": "iot-purpose:value",
-      "iot:type": "iot:type.bolean",
+      "iot:type": "iot:type.boolean",
       "iot:write": false,
       "iot:read": true
     },
@@ -63,7 +63,7 @@
       "@type": "iot:Attribute",
       "@id": "#operating-direction",
       "iot:purpose": "iot-purpose:value",
-      "iot:type": "iot:type.bolean",
+      "iot:type": "iot:type.boolean",
       "iot:write": false,
       "iot:read": true
     }

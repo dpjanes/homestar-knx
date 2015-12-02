@@ -14,11 +14,12 @@ exports.binding = {
     connectd: {
         pre_out: function (paramd) {
             var cookd = {};
+            var max = 255;  // this should be soft
 
             if (paramd.cookd.position !== undefined) {
-                cookd.position = paramd.cookd.position;
+                cookd.position = Math.round(paramd.cookd.position * 255 / 100);
             } else if (paramd.cookd.open !== undefined) {
-                cookd.position = 100;
+                cookd.position = max;
             } else if (paramd.cookd.close !== undefined) {
                 cookd.position = 0;
             }

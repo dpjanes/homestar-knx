@@ -15,4 +15,5 @@ exports.Model = iotdb.make_model('KNXValueBoolean')
 exports.binding = {
     bridge: require('../KNXBridge').Bridge,
     model: exports.Model,
+    discover: false,
 };

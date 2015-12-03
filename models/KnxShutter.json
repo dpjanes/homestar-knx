@@ -35,6 +35,7 @@
     {
       "@type": "iot:Attribute",
       "@id": "#position",
+      "schema:name": "position",
       "iot:purpose": "iot-purpose:open",
       "iot:type": "iot:type.integer",
       "iot:unit": "iot-unit:math.fraction.percent",
@@ -46,6 +47,7 @@
     {
       "@type": "iot:Attribute",
       "@id": "#open",
+      "schema:name": "open",
       "iot:purpose": "iot-purpose:open.true",
       "iot:type": "iot:type.null",
       "iot:write": true
@@ -53,6 +55,7 @@
     {
       "@type": "iot:Attribute",
       "@id": "#close",
+      "schema:name": "close",
       "iot:purpose": "iot-purpose:open.false",
       "iot:type": "iot:type.null",
       "iot:write": true

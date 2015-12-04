@@ -224,7 +224,7 @@ KNXBridge.prototype._setup_read = function () {
     var self = this;
 
     var _on_change = function (address, data, datagram) {
-        logger.debug({
+        logger.info({
             method: "_setup_read/on(status)",
             address: address,
             data: data,

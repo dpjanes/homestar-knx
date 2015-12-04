@@ -18,11 +18,11 @@ exports.binding = {
             var max = 255;  // this should be soft
 
             if (paramd.cookd.position !== undefined) {
-                cookd.position = Math.round(paramd.cookd.position * 255 / 100);
+                cookd.position = max - Math.round(paramd.cookd.position * max / 100);
             } else if (paramd.cookd.open !== undefined) {
-                cookd.position = max;
-            } else if (paramd.cookd.close !== undefined) {
                 cookd.position = 0;
+            } else if (paramd.cookd.close !== undefined) {
+                cookd.position = max;
             }
 
             return cookd;

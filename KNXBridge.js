@@ -243,6 +243,12 @@ KNXBridge.prototype._setup_read = function () {
             scratchd: self.scratchd,
         };
         self.connectd.data_in(paramd);
+
+        var cookd = self.connectd.post_in(paramd);
+        if (cookd !== undefined) {
+            paramd.cookd = cookd;
+        }
+
         self.pulled(paramd.cookd);
     };
 

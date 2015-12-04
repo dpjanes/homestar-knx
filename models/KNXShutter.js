@@ -15,7 +15,7 @@ exports.binding = {
     connectd: {
         pre_out: function (paramd) {
             var cookd = {};
-            var max = 255;  // this should be soft
+            var max = 255; // this should be soft
 
             if (paramd.cookd.position !== undefined) {
                 cookd.position = max - Math.round(paramd.cookd.position * max / 100);
@@ -23,6 +23,16 @@ exports.binding = {
                 cookd.position = 0;
             } else if (paramd.cookd.close !== undefined) {
                 cookd.position = max;
+            }
+
+            return cookd;
+        },
+        post_in: function (paramd) {
+            var cookd = {};
+            var max = 255; // this should be soft
+
+            if (paramd.cookd.position !== undefined) {
+                cookd.position = 100 - (parseInt(paramd.cookd.position) * 100 / max);
             }
 
             return cookd;

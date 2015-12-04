@@ -223,16 +223,20 @@ KNXBridge.prototype._data_out = function (paramd) {
 KNXBridge.prototype._setup_read = function () {
     var self = this;
 
-    var _on_change = function (address, data, datagram) {
+    var _on_change = function (knx_ga, data, datagram) {
+        if (!self.knx_readd[knx_ga]) {
+            return;
+        }
+
         logger.info({
             method: "_setup_read/on(status)",
-            address: address,
+            knx_ga: knx_ga,
             data: data,
             datagram: datagram,
         }, "got 'status'/'event'");
 
         var rawd = {};
-        rawd[address] = data;
+        rawd[knx_ga] = data;
         var paramd = {
             rawd: rawd,
             cookd: {},
@@ -242,11 +246,11 @@ KNXBridge.prototype._setup_read = function () {
         self.pulled(paramd.cookd);
     };
 
-    self.native.on('status', function (address, data, datagram) {
-        _on_change(address, data, datagram);
+    self.native.on('status', function (knx_ga, data, datagram) {
+        _on_change(knx_ga, data, datagram);
     });
-    self.native.on('event', function (address, data, datagram) {
-        _on_change(address, data, datagram);
+    self.native.on('event', function (knx_ga, data, datagram) {
+        _on_change(knx_ga, data, datagram);
     });
 
     self.connectd.subscribes.map(function (knx_ga) {

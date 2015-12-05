@@ -1,0 +1,12 @@
+--
+--  compile to JSON with 'iotql-model KNXSwitch.iotql'
+--
+CREATE MODEL KNXSwitch WITH
+    schema:name = "KNXSwitch",
+    schema:description = "On/Off Switch",
+    iot:facet = iot-facet:switch
+ATTRIBUTE on WITH
+    schema:name = "on",
+    iot:purpose = iot-purpose:on,
+    iot:type = iot:type.boolean
+;

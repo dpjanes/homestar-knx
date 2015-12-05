@@ -49,20 +49,7 @@ things.on("meta", function (thing) {
 things.on("thing", function (thing) {
     console.log("+", "discovered", thing.thing_id(), "\n ", thing.state("meta"));
 
-    if (process.argv.length > 2) {
-        console.log("HERE:B.1");
-        if (process.argv.length === "open") {
-            thing.set(":open.true", null);
-            // or ... thing.set("open", true);
-            // or ... thing.set(":position", 100);
-        } else if (process.argv.length === "close") {
-            thing.set(":open.false", null);
-            // or ... thing.set("close", true);
-            // or ... thing.set(":position", 0);
-        }
-    } else {
-        console.log("HERE:C.1");
-        thing.set(":open", 50); // 50%
-        console.log("HERE:C.99");
-    }
+    thing.set(":open.true", null);
+    thing.set(":open.false", null);
+    thing.set(":open", 50);
 });

@@ -190,7 +190,6 @@ KNXBridge.prototype._data_in = function (paramd) {
     if (self.initd.raw) {
         paramd.cookd = _.deepCopy(paramd.rawd);
     } else {
-        paramd.cookd['@__validate'] = true;
         _.mapObject(paramd.rawd, function (value, knx_ga) {
             // it's OK - data can come that we don't know about
             var coded = self.knx_readd[knx_ga];
@@ -249,6 +248,7 @@ KNXBridge.prototype._setup_read = function () {
             paramd.cookd = cookd;
         }
 
+        paramd.cookd['@__validate'] = true;
         self.pulled(paramd.cookd);
     };
 

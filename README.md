@@ -2,16 +2,16 @@
 IOTDB / HomeStar Controller for KNX
 
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" />
+
 # Installation
 
-Install Home☆Star first. 
-See: https://github.com/dpjanes/iotdb-homestar#installation
+[Install Home☆Star first](https://github.com/dpjanes/iotdb-homestar#installation).
+Then:
 
     $ homestar install homestar-knx
 
-It should be configured. 
-This project is based on [KNX.js](https://www.npmjs.com/package/knx.js), 
-so these settings will make more sense in that context
+This project is based on [KNX.js](https://www.npmjs.com/package/knx.js).
+Apply these settings, substituting what is appropriate for your environment.
 
     homestar set "/bridges/KNXBridge/initd/host" '192.168.80.101'
     homestar set "/bridges/KNXBridge/initd/port" 3671

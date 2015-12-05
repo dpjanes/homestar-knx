@@ -6,7 +6,6 @@
 #   2015-11-29
 #
 
-exit 0
 PACKAGE=homestar-knx
 DIST_ROOT=/var/tmp/.dist.$$
 
@@ -35,7 +34,7 @@ echo "=================="
         README.md LICENSE \
         homestar.json package.json \
         KNXBridge.js index.js \
-        models/*js \
+        models/*.js models/*.json \
         |
     ( cd "${NPM_DST}" && tar xvf - )
 

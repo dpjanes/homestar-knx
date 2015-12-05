@@ -21,7 +21,7 @@
   },
   "@id": "",
   "@type": "iot:Model",
-  "schema:name": "KNXShutterRaw",
+  "schema:name": "KnxShutterRaw",
   "schema:description": "ShutterRaw",
   "iot:facet": [
     "iot-facet:climate"

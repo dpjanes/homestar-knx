@@ -1,5 +1,5 @@
 /*
- *  KNXValueInteger.js
+ *  KnxValueInteger.js
  *
  *  David Janes
  *  IOTDB
@@ -8,7 +8,7 @@
 
 var iotdb = require("iotdb");
 
-exports.Model = iotdb.make_model('KNXValueInteger')
+exports.Model = iotdb.make_model('KnxValueInteger')
     .io("value", iotdb.integer.value)
     .make();
 

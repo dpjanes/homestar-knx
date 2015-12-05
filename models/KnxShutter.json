@@ -26,7 +26,7 @@
   },
   "@id": "",
   "@type": "iot:Model",
-  "schema:name": "KNXShutter",
+  "schema:name": "KnxShutter",
   "schema:description": "Shutter",
   "iot:facet": [
     "iot-facet:climate"

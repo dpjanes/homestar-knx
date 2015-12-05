@@ -1,5 +1,5 @@
 /*
- *  KNXLight.js
+ *  KnxLight.js
  *
  *  David Janes
  *  IOTDB

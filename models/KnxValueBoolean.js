@@ -1,5 +1,5 @@
 /*
- *  KNXValueBoolean.js
+ *  KnxValueBoolean.js
  *
  *  David Janes
  *  IOTDB
@@ -8,7 +8,7 @@
 
 var iotdb = require("iotdb");
 
-exports.Model = iotdb.make_model('KNXValueBoolean')
+exports.Model = iotdb.make_model('KnxValueBoolean')
     .io("value", iotdb.boolean.value)
     .make();
 

@@ -1,8 +1,8 @@
 --
---  compile to JSON with 'iotql-model KNXLight.iotql'
+--  compile to JSON with 'iotql-model KnxLight.iotql'
 --
-CREATE MODEL KNXLight WITH
-    schema:name = "KNXLight",
+CREATE MODEL KnxLight WITH
+    schema:name = "KnxLight",
     schema:description = "On/Off Light",
     iot:facet = iot-facet:lighting
 ATTRIBUTE on WITH

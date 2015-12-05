@@ -1,8 +1,8 @@
 --
---  compile to JSON with 'iotql-model KNXSwitch.iotql'
+--  compile to JSON with 'iotql-model KnxSwitch.iotql'
 --
-CREATE MODEL KNXSwitch WITH
-    schema:name = "KNXSwitch",
+CREATE MODEL KnxSwitch WITH
+    schema:name = "KnxSwitch",
     schema:description = "On/Off Switch",
     iot:facet = iot-facet:switch
 ATTRIBUTE on WITH

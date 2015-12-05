@@ -1,5 +1,5 @@
 /*
- *  KNXShutter.js
+ *  KnxShutter.js
  *
  *  David Janes
  *  IOTDB

@@ -1,7 +1,7 @@
 {
   "@context": {
-    "@base": "file:///knx-switch",
-    "@vocab": "file:///knx-switch#",
+    "@base": "file:///knx-dimmer",
+    "@vocab": "file:///knx-dimmer#",
     "iot": "https://iotdb.org/pub/iot#",
     "schema": "http://schema.org/",
     "iot-purpose": "https://iotdb.org/pub/iot-purpose#",
@@ -21,8 +21,8 @@
   },
   "@id": "",
   "@type": "iot:Model",
-  "schema:name": "KnxSwitch",
-  "schema:description": "On/Off Switch",
+  "schema:name": "KnxDimmer",
+  "schema:description": "Dimmer Switch",
   "iot:facet": [
     "iot-facet:switch"
   ],

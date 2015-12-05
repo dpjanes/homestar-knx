@@ -1,5 +1,5 @@
 /*
- *  KNXSwitch.js
+ *  KnxSwitch.js
  *
  *  David Janes
  *  IOTDB

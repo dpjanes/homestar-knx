@@ -21,7 +21,7 @@
   },
   "@id": "",
   "@type": "iot:Model",
-  "schema:name": "KNXLight",
+  "schema:name": "KnxLight",
   "schema:description": "On/Off Light",
   "iot:facet": [
     "iot-facet:lighting"

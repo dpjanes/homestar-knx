@@ -1,0 +1,12 @@
+--
+--  compile to JSON with 'iotql-model KnxDimmer.iotql'
+--
+CREATE MODEL KnxDimmer WITH
+    schema:name = "KnxDimmer",
+    schema:description = "Dimmer Switch",
+    iot:facet = iot-facet:switch
+ATTRIBUTE on WITH
+    schema:name = "on",
+    iot:purpose = iot-purpose:on,
+    iot:type = iot:type.boolean
+;

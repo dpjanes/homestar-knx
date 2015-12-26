@@ -1,0 +1,10 @@
+--
+--  compile to JSON with 'iotql-model KnxValueInteger.iotql'
+--
+CREATE MODEL KnxValueInteger WITH
+    schema:name = "KnxValueInteger"
+ATTRIBUTE value WITH
+    schema:name = "value",
+    iot:purpose = iot-purpose:value,
+    iot:type = iot:type.integer
+;

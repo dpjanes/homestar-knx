@@ -1,7 +1,11 @@
 # homestar-knx
-IOTDB / HomeStar Controller for [KNX](https://en.wikipedia.org/wiki/KNX_(standard\)), the  OSI-based network communications protocol for intelligent buildings.
+IOTDB / Home☆Star Controller for KNX, the  OSI-based network communications protocol for intelligent buildings.
 
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" />
+
+See: 
+* https://en.wikipedia.org/wiki/KNX\_(standard)
+* http://www.knx.org/knx-en/index.php
 
 # Installation
 

@@ -1,11 +1,12 @@
 # homestar-knx
-IOTDB / HomeStar Controller for KNX
+IOTDB / HomeStar Controller for [KNX](https://en.wikipedia.org/wiki/KNX_(standard\)), the  OSI-based network communications protocol for intelligent buildings.
 
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" />
 
 # Installation
 
 [Install Home☆Star first](https://github.com/dpjanes/iotdb-homestar#installation).
+
 Then:
 
     $ homestar install homestar-knx
@@ -25,7 +26,7 @@ you initialize your Things.
 See the **[samples](https://github.com/dpjanes/homestar-knx/tree/master/samples)** folder for examples on how to configure these 
 with your GA.
 
-## KnxDimmer
+## [KnxDimmer](https://github.com/dpjanes/homestar-knx/blob/master/models/KnxDimmer.iotql)
 
 Light at 50% brightness
 
@@ -34,7 +35,7 @@ Light at 50% brightness
         "brightness": 50
     }
 
-## KnxLight
+## [KnxLight](https://github.com/dpjanes/homestar-knx/blob/master/models/KnxLight.iotql)
 
 Light is on
 
@@ -42,7 +43,7 @@ Light is on
         "on": true
     }
 
-## KnxShutter
+## [KnxShutter](https://github.com/dpjanes/homestar-knx/blob/master/models/KnxShutter.iotql)
 
 Fully open shutter
 
@@ -56,19 +57,19 @@ Fully closed shutter
         "open": 0
     }
 
-## KnxSwitch
+## [KnxSwitch](https://github.com/dpjanes/homestar-knx/blob/master/models/KnxSwitch.iotql)
 
     {
         "on": true
     }
 
-## KnxValueBoolean
+## [KnxValueBoolean](https://github.com/dpjanes/homestar-knx/blob/master/models/KnxValueBoolean.iotql)
 
     {
         "value": true
     }
 
-## KnxValueInteger
+## [KnxValueInteger](https://github.com/dpjanes/homestar-knx/blob/master/models/KnxValueInteger.iotql)
 
     {
         "value": 255

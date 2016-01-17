@@ -69,11 +69,11 @@ var KNXBridge = function (initd, native) {
     }
 
     if ((self.initd.tunnel_host === '') || (self.initd.tunnel_host === '0.0.0.0')) {
-        self.initd.tunnel_host = _.ipv4();
+        self.initd.tunnel_host = _.net.ipv4();
     }
 
     if ((self.initd.host === '') || (self.initd.host === '0.0.0.0')) {
-        self.initd.host = _.ipv4();
+        self.initd.host = _.net.ipv4();
     }
 
     // preprocess knx (probably unnecessary for exemplars)

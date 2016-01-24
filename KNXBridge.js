@@ -24,12 +24,11 @@
 
 var iotdb = require('iotdb');
 var _ = iotdb._;
-var bunyan = iotdb.bunyan;
 
 var url = require('url');
 var knx_js = require('knx.js');
 
-var logger = bunyan.createLogger({
+var logger = iotdb.logger({
     name: 'homestar-knx',
     module: 'KNXBridge',
 });

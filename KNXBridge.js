@@ -82,7 +82,7 @@ var KNXBridge = function (initd, native) {
     if (!_.is.Empty(self.initd.knx)) {
         if (_.is.Dictionary(self.initd.knx)) {
             _.mapObject(self.initd.knx, function (coded, code) {
-                coded = _.deepCopy(coded);
+                coded = _.d.clone.deep(coded);
                 coded.code = code;
 
                 if (coded.write) {
@@ -187,7 +187,7 @@ KNXBridge.prototype._data_in = function (paramd) {
     var self = this;
 
     if (self.initd.raw) {
-        paramd.cookd = _.deepCopy(paramd.rawd);
+        paramd.cookd = _.d.clone.deep(paramd.rawd);
     } else {
         _.mapObject(paramd.rawd, function (value, knx_ga) {
             // it's OK - data can come that we don't know about
@@ -205,7 +205,7 @@ KNXBridge.prototype._data_out = function (paramd) {
     var self = this;
 
     if (self.initd.raw) {
-        paramd.rawd = _.deepCopy(paramd.cookd);
+        paramd.rawd = _.d.clone.deep(paramd.cookd);
     } else {
         _.mapObject(paramd.cookd, function (value, code) {
             var coded = self.knx_writed[code];

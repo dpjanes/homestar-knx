@@ -11,7 +11,7 @@
 var iotdb = require('iotdb');
 
 var things = iotdb.connect({
-    model: 'KNXLight',
+    model_id: 'KNXLight',
     uuid: "207BE1C3-B55B-40FE-8DA3-843E4311D67C",
     knx: {
         "on": {

@@ -10,7 +10,7 @@ var iotdb = require("iotdb");
 
 exports.binding = {
     bridge: require('../KNXBridge').Bridge,
-    model: require('./KnxDimmer.json'),
+    model: require('./knx-dimmer.json'),
     discover: false,
     connectd: {
         pre_out: function (paramd) {

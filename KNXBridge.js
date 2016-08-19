@@ -101,9 +101,9 @@ var KNXBridge = function (initd, native) {
 
         if (!self.initd.uuid) {
             logger.error({
-                method: "KXBridge",
+                method: "KNXBridge",
                 initd: self.initd,
-                cause: "caller should initialize with an 'uuid'",
+                cause: "caller should initialize with an 'uuid', used to uniquely identify things over sessions",
             }, "missing initd.uuid - problematic");
         }
     }

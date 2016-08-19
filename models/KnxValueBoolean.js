@@ -10,6 +10,6 @@ var iotdb = require("iotdb");
 
 exports.binding = {
     bridge: require('../KNXBridge').Bridge,
-    model: require('./KnxValueBoolean.json'),
+    model: require('./knx-value-boolean.json'),
     discover: false,
 };

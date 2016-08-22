@@ -3,17 +3,20 @@
 
 <img src="https://raw.githubusercontent.com/dpjanes/iotdb-homestar/master/docs/HomeStar.png" align="right" />
 
+# About
+
 See: 
 * https://en.wikipedia.org/wiki/KNX\_(standard)
 * http://www.knx.org/knx-en/index.php
 
-# Installation
+# Installation and Configuration
 
-[Install Home☆Star first](https://github.com/dpjanes/iotdb-homestar#installation).
+* [Read this first](https://github.com/dpjanes/node-iotdb/blob/master/docs/install.md)
+* [Read about installing Home☆Star](https://github.com/dpjanes/node-iotdb/blob/master/docs/homestar.md) 
 
-Then:
-
-    $ homestar install homestar-knx
+    $ npm install -g homestar    ## may require sudo
+    $ homestar setup
+    $ npm install homestar-knx
 
 This project is based on [KNX.js](https://www.npmjs.com/package/knx.js).
 Apply these settings, substituting what is appropriate for your environment.

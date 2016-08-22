@@ -7,7 +7,7 @@
         "iotdb": ">=3.0.0", 
         "knx.js": "~0.6.11"
     }, 
-    "description": "HomeStar / IOTDB Bridge for KNX", 
+    "description": "IOTDB Bridge for KNX", 
     "devDependencies": {
         "grunt": "~1.0.1", 
         "grunt-contrib-jshint": "~1.0.0", 

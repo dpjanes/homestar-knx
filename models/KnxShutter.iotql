@@ -15,11 +15,13 @@ ATTRIBUTE "position" WITH
 ATTRIBUTE "open" WITH
     iot:name = "open",
     iot:purpose = iot-purpose:open.true,
-    iot:type = iot:type.null,
+    iot:instantaneous = true,
+    iot:type = iot:type.string,
     iot:write = true
 ATTRIBUTE "close" WITH
     iot:name = "close",
     iot:purpose = iot-purpose:open.false,
-    iot:type = iot:type.null,
+    iot:instantaneous = true,
+    iot:type = iot:type.string,
     iot:write = true
 ;

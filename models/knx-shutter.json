@@ -48,7 +48,8 @@
       "iot:purpose": "iot-purpose:open.true",
       "iot:read": true,
       "iot:sensor": true,
-      "iot:type": "iot:type.null",
+      "iot:type": "iot:type.string",
+      "iot:instantaneous": true,
       "iot:write": true,
       "schema:name": "open"
     },
@@ -59,7 +60,8 @@
       "iot:purpose": "iot-purpose:open.false",
       "iot:read": true,
       "iot:sensor": true,
-      "iot:type": "iot:type.null",
+      "iot:type": "iot:type.string",
+      "iot:instantaneous": true,
       "iot:write": true,
       "schema:name": "close"
     }

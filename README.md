@@ -9,6 +9,8 @@ See:
 * https://en.wikipedia.org/wiki/KNX\_(standard)
 * http://www.knx.org/knx-en/index.php
 
+* [Read about Bridges](https://github.com/dpjanes/node-iotdb/blob/master/docs/bridges.md)
+
 # Installation and Configuration
 
 * [Read this first](https://github.com/dpjanes/node-iotdb/blob/master/docs/install.md)

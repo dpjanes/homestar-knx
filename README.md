@@ -19,7 +19,6 @@ See:
 Then:
 
     $ npm install -g homestar    ## may require sudo
-    $ homestar setup
     $ npm install homestar-knx
 
 This project is based on [KNX.js](https://www.npmjs.com/package/knx.js).

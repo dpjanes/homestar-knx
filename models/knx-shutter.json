@@ -45,11 +45,11 @@
       "@id": "#open",
       "@type": "iot:Attribute",
       "iot:actuator": true,
+      "iot:instantaneous": true,
       "iot:purpose": "iot-purpose:open.true",
-      "iot:read": true,
+      "iot:read": false,
       "iot:sensor": true,
       "iot:type": "iot:type.string",
-      "iot:instantaneous": true,
       "iot:write": true,
       "schema:name": "open"
     },
@@ -57,11 +57,11 @@
       "@id": "#close",
       "@type": "iot:Attribute",
       "iot:actuator": true,
+      "iot:instantaneous": true,
       "iot:purpose": "iot-purpose:open.false",
-      "iot:read": true,
+      "iot:read": false,
       "iot:sensor": true,
       "iot:type": "iot:type.string",
-      "iot:instantaneous": true,
       "iot:write": true,
       "schema:name": "close"
     }

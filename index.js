@@ -32,3 +32,5 @@ exports.bindings = [
     require('./models/KnxSwitch').binding,
     require('./models/KnxDimmer').binding,
 ];
+
+exports.module_folder = __dirname;

@@ -111,10 +111,6 @@ var KNXBridge = function (initd, native) {
 
 KNXBridge.prototype = new iotdb.Bridge();
 
-KNXBridge.prototype.name = function () {
-    return "KNXBridge";
-};
-
 /* --- lifecycle --- */
 
 /**

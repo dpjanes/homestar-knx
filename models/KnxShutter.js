@@ -12,6 +12,7 @@ exports.binding = {
     bridge: require('../KNXBridge').Bridge,
     model: require('./knx-shutter.json'),
     discover: false,
+    configuration: require('./knx-shutter.schema.json'),
     connectd: {
         pre_out: function (paramd) {
             var cookd = {};

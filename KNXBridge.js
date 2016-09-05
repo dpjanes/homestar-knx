@@ -62,7 +62,7 @@ const KNXBridge = function (initd, native) {
     self.native = native; // the thing that does the work - keep this name
 
     if (self.initd.tunnel) {
-        var turl = url.parse(self.initd.tunnel);
+        const turl = url.parse(self.initd.tunnel);
         self.initd.tunnel_host = turl.hostname;
         self.initd.tunnel_port = parseInt(turl.port);
     }
@@ -187,7 +187,7 @@ KNXBridge.prototype._data_in = function (paramd) {
     } else {
         _.mapObject(paramd.rawd, function (value, knx_ga) {
             // it's OK - data can come that we don't know about
-            var coded = self.knx_readd[knx_ga];
+            const coded = self.knx_readd[knx_ga];
             if (!coded) {
                 return;
             }
@@ -204,7 +204,7 @@ KNXBridge.prototype._data_out = function (paramd) {
         paramd.rawd = _.d.clone.deep(paramd.cookd);
     } else {
         _.mapObject(paramd.cookd, function (value, code) {
-            var coded = self.knx_writed[code];
+            const coded = self.knx_writed[code];
             if (!coded) {
                 return;
             }
@@ -217,7 +217,7 @@ KNXBridge.prototype._data_out = function (paramd) {
 KNXBridge.prototype._setup_read = function () {
     const self = this;
 
-    var _on_change = function (knx_ga, data, datagram) {
+    const _on_change = function (knx_ga, data, datagram) {
         if (!self.knx_readd[knx_ga]) {
             return;
         }
@@ -229,16 +229,17 @@ KNXBridge.prototype._setup_read = function () {
             datagram: datagram,
         }, "got 'status'/'event'");
 
-        var rawd = {};
+        const rawd = {};
         rawd[knx_ga] = data;
-        var paramd = {
+
+        const paramd = {
             rawd: rawd,
             cookd: {},
             scratchd: self.scratchd,
         };
         self.connectd.data_in(paramd);
 
-        var cookd = self.connectd.post_in(paramd);
+        const cookd = self.connectd.post_in(paramd);
         if (cookd !== undefined) {
             paramd.cookd = cookd;
         }
@@ -340,7 +341,7 @@ KNXBridge.prototype._send = function (key, value) {
     const self = this;
 
     const qitem = {
-        run: function () {
+        run: () => {
             logger.info({
                 method: "_send",
                 key: key,
@@ -352,8 +353,7 @@ KNXBridge.prototype._send = function (key, value) {
             }
             self.queue.finished(qitem);
         },
-        coda: function () {
-            // done();
+        coda: () => {
         },
     };
     self.queue.add(qitem);
@@ -426,13 +426,13 @@ let __pendingsd = {};
 KNXBridge.prototype._knx = function (callback) {
     const self = this;
 
-    var key = [self.initd.host, "" + self.initd.port, self.initd.tunnel_host, "" + self.initd.tunnel_port].join("@@");
+    const key = [self.initd.host, "" + self.initd.port, self.initd.tunnel_host, "" + self.initd.tunnel_port].join("@@");
 
-    var knx = __knxd[key];
+    let knx = __knxd[key];
     if (knx === undefined) {
-        var connect = false;
+        let connect = false;
 
-        var pendings = __pendingsd[key];
+        let pendings = __pendingsd[key];
         if (pendings === undefined) {
             pendings = [];
             __pendingsd[key] = pendings;
@@ -464,7 +464,7 @@ KNXBridge.prototype._knx = function (callback) {
 
 
             // probably should be error checking here
-            knx.Connect(function () {
+            knx.Connect(() => {
                 logger.info({
                     method: "_knx",
                     npending: pendings.length,
@@ -482,9 +482,8 @@ KNXBridge.prototype._knx = function (callback) {
                         pending(null, knx);
                     });
                 } else {
-                    var error = new Error("could not establish a connection");
-                    pendings.map(function (pending) {
-                        pending(error, null);
+                    pendings.forEach(function (pending) {
+                        pending(new Error("could not establish a connection"), null);
                     });
                 }
 

@@ -22,13 +22,13 @@
 
 "use strict";
 
-var iotdb = require('iotdb');
-var _ = iotdb._;
+const iotdb = require('iotdb');
+const _ = iotdb._;
 
-var url = require('url');
-var knx_js = require('knx.js');
+const url = require('url');
+const knx_js = require('knx.js');
 
-var logger = iotdb.logger({
+const logger = iotdb.logger({
     name: 'homestar-knx',
     module: 'KNXBridge',
 });
@@ -45,8 +45,8 @@ var logger = iotdb.logger({
  *  @param {object|undefined} native
  *  only used for instances, should be 
  */
-var KNXBridge = function (initd, native) {
-    var self = this;
+const KNXBridge = function (initd, native) {
+    const self = this;
 
     self.initd = _.defaults(initd,
         iotdb.keystore().get("bridges/KNXBridge/initd"), {
@@ -117,7 +117,7 @@ KNXBridge.prototype = new iotdb.Bridge();
  *  See {iotdb.bridge.Bridge#discover} for documentation.
  */
 KNXBridge.prototype.discover = function () {
-    var self = this;
+    const self = this;
 
     logger.info({
         method: "discover"
@@ -150,7 +150,7 @@ KNXBridge.prototype.discover = function () {
  *  See {iotdb.bridge.Bridge#connect} for documentation.
  */
 KNXBridge.prototype.connect = function (connectd) {
-    var self = this;
+    const self = this;
     if (!self.native) {
         return;
     }
@@ -180,7 +180,7 @@ KNXBridge.prototype.connect = function (connectd) {
 };
 
 KNXBridge.prototype._data_in = function (paramd) {
-    var self = this;
+    const self = this;
 
     if (self.initd.raw) {
         paramd.cookd = _.d.clone.deep(paramd.rawd);
@@ -198,7 +198,7 @@ KNXBridge.prototype._data_in = function (paramd) {
 };
 
 KNXBridge.prototype._data_out = function (paramd) {
-    var self = this;
+    const self = this;
 
     if (self.initd.raw) {
         paramd.rawd = _.d.clone.deep(paramd.cookd);
@@ -215,7 +215,7 @@ KNXBridge.prototype._data_out = function (paramd) {
 };
 
 KNXBridge.prototype._setup_read = function () {
-    var self = this;
+    const self = this;
 
     var _on_change = function (knx_ga, data, datagram) {
         if (!self.knx_readd[knx_ga]) {
@@ -272,7 +272,7 @@ KNXBridge.prototype._setup_read = function () {
 };
 
 KNXBridge.prototype._forget = function () {
-    var self = this;
+    const self = this;
     if (!self.native) {
         return;
     }
@@ -289,7 +289,7 @@ KNXBridge.prototype._forget = function () {
  *  See {iotdb.bridge.Bridge#disconnect} for documentation.
  */
 KNXBridge.prototype.disconnect = function () {
-    var self = this;
+    const self = this;
     if (!self.native || !self.native) {
         return;
     }
@@ -303,7 +303,7 @@ KNXBridge.prototype.disconnect = function () {
  *  See {iotdb.bridge.Bridge#push} for documentation.
  */
 KNXBridge.prototype.push = function (pushd, done) {
-    var self = this;
+    const self = this;
     if (!self.native) {
         done(new Error("not connected"));
         return;
@@ -316,13 +316,13 @@ KNXBridge.prototype.push = function (pushd, done) {
         pushd: pushd
     }, "push");
 
-    var paramd = {
+    const paramd = {
         rawd: {},
         cookd: pushd,
         scratchd: self.scratchd,
     };
 
-    var cookd = self.connectd.pre_out(paramd);
+    const cookd = self.connectd.pre_out(paramd);
     if (cookd !== undefined) {
         paramd.cookd = cookd;
     }
@@ -337,9 +337,9 @@ KNXBridge.prototype.push = function (pushd, done) {
 };
 
 KNXBridge.prototype._send = function (key, value) {
-    var self = this;
+    const self = this;
 
-    var qitem = {
+    const qitem = {
         run: function () {
             logger.info({
                 method: "_send",
@@ -363,7 +363,7 @@ KNXBridge.prototype._send = function (key, value) {
  *  See {iotdb.bridge.Bridge#pull} for documentation.
  */
 KNXBridge.prototype.pull = function () {
-    var self = this;
+    const self = this;
     if (!self.native) {
         return;
     }
@@ -375,7 +375,7 @@ KNXBridge.prototype.pull = function () {
  *  See {iotdb.bridge.Bridge#meta} for documentation.
  */
 KNXBridge.prototype.meta = function () {
-    var self = this;
+    const self = this;
     if (!self.native) {
         return;
     }
@@ -403,9 +403,17 @@ KNXBridge.prototype.reachable = function () {
  */
 KNXBridge.prototype.configure = function (app) {};
 
+/**
+ *  See {iotdb.bridge.Bridge#reset} for documentation.
+ */
+KNXBridge.prototype.reset = function () {
+    __knxd = {};
+    __pendingsd = {};
+};
+
 /* -- internals -- */
-var __knxd = {};
-var __pendingsd = {};
+let __knxd = {};
+let __pendingsd = {};
 
 /**
  *  This returns a connection object per ( host, port, tunnel_host, tunnel_port )
@@ -416,10 +424,9 @@ var __pendingsd = {};
  *  in '__pendingsd' until the connection is actually made
  */
 KNXBridge.prototype._knx = function (callback) {
-    var self = this;
+    const self = this;
 
     var key = [self.initd.host, "" + self.initd.port, self.initd.tunnel_host, "" + self.initd.tunnel_port].join("@@");
-
 
     var knx = __knxd[key];
     if (knx === undefined) {

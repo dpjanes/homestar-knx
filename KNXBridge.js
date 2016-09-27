@@ -291,7 +291,7 @@ KNXBridge.prototype._forget = function () {
  */
 KNXBridge.prototype.disconnect = function () {
     const self = this;
-    if (!self.native || !self.native) {
+    if (!self.native) {
         return;
     }
 

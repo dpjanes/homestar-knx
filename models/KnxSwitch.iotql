@@ -4,7 +4,7 @@
 CREATE MODEL KnxSwitch WITH
     schema:name = "KnxSwitch",
     schema:description = "On/Off Switch",
-    iot:facet = iot-facet:switch
+    iot:facet = iot-facet:power.switch
 ATTRIBUTE on WITH
     schema:name = "on",
     iot:purpose = iot-purpose:on,

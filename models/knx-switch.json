@@ -34,7 +34,7 @@
       "schema:name": "on"
     }
   ],
-  "iot:facet": "iot-facet:switch",
+  "iot:facet": "iot-facet:power.switch",
   "iot:model-id": "knx-switch",
   "schema:description": "On/Off Switch",
   "schema:name": "KnxSwitch"

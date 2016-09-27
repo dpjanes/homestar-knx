@@ -53,7 +53,10 @@
       "schema:name": "brightness"
     }
   ],
-  "iot:facet": "iot-facet:switch",
+  "iot:facet": [
+    "iot-facet:power.switch",
+    "iot-facet:power.dimmer"
+  ],
   "iot:model-id": "knx-dimmer",
   "schema:description": "Dimmer Switch",
   "schema:name": "KnxDimmer"

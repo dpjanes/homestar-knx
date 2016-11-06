@@ -26,7 +26,7 @@ const iotdb = require('iotdb');
 const _ = iotdb._;
 
 const url = require('url');
-const knx_js = require('knx.js');
+const knx_js = require('knx');
 
 const logger = iotdb.logger({
     name: 'homestar-knx',
@@ -43,7 +43,7 @@ const logger = iotdb.logger({
  *  See {iotdb.bridge.Bridge#Bridge} for documentation.
  *  <p>
  *  @param {object|undefined} native
- *  only used for instances, should be 
+ *  only used for instances, should be
  */
 const KNXBridge = function (initd, native) {
     const self = this;
@@ -217,20 +217,21 @@ KNXBridge.prototype._data_out = function (paramd) {
 KNXBridge.prototype._setup_read = function () {
     const self = this;
 
-    const _on_change = function (knx_ga, data, datagram) {
-        if (!self.knx_readd[knx_ga]) {
+    // knx_ga, data, datagram
+    const _on_change = function (src, dest, value) {
+
+        if (!self.knx_readd[dest]) {
             return;
         }
 
         logger.info({
             method: "_setup_read/on(status)",
-            knx_ga: knx_ga,
-            data: data,
-            datagram: datagram,
+            knx_ga: dest,
+            data: value
         }, "got 'status'/'event'");
 
         const rawd = {};
-        rawd[knx_ga] = data;
+        rawd[dest] = value;
 
         const paramd = {
             rawd: rawd,
@@ -248,11 +249,13 @@ KNXBridge.prototype._setup_read = function () {
         self.pulled(paramd.cookd);
     };
 
-    self.native.on('status', function (knx_ga, data, datagram) {
-        _on_change(knx_ga, data, datagram);
+    self.native.on('GroupValue_Response', function (src, dest, value) {
+        _on_change(src, dest, value);
+        //_on_change(knx_ga, data, datagram);
     });
-    self.native.on('event', function (knx_ga, data, datagram) {
-        _on_change(knx_ga, data, datagram);
+    self.native.on('GroupValue_Write', function (src, dest, value) {
+        _on_change(src, dest, value);
+        //_on_change(knx_ga, data, datagram);
     });
 
     self.connectd.subscribes.map(function (knx_ga) {
@@ -260,7 +263,8 @@ KNXBridge.prototype._setup_read = function () {
             method: "_setup_read",
             knx_ga: knx_ga,
         }, "subscribe to GA (connectd.subscribes)");
-        self.native.RequestStatus(knx_ga);
+        self.native.read(knx_ga);
+        //self.native.RequestStatus(knx_ga);
     });
 
     _.mapObject(self.knx_readd, function (coded, knx_ga) {
@@ -268,7 +272,8 @@ KNXBridge.prototype._setup_read = function () {
             method: "_setup_read",
             knx_ga: knx_ga,
         }, "subscribe to GA (knx_readd)");
-        self.native.RequestStatus(knx_ga);
+        self.native.read(knx_ga);
+        //self.native.RequestStatus(knx_ga);
     });
 };
 
@@ -340,6 +345,10 @@ KNXBridge.prototype.push = function (pushd, done) {
 KNXBridge.prototype._send = function (key, value) {
     const self = this;
 
+    if(typeof value == 'boolean'){
+      value = value?1:0;
+    }
+
     const qitem = {
         run: () => {
             logger.info({
@@ -349,7 +358,8 @@ KNXBridge.prototype._send = function (key, value) {
             }, "send");
 
             if (self.native) {
-                self.native.Action(key, value);
+
+                self.native.write(key, value);
             }
             self.queue.finished(qitem);
         },
@@ -420,7 +430,7 @@ let __pendingsd = {};
  *  tuple, ensuring the correct connection object exists and is connected.
  *  It calls back with the connection object
  *
- *  The code is complicated because we have to keep callbacks stored 
+ *  The code is complicated because we have to keep callbacks stored
  *  in '__pendingsd' until the connection is actually made
  */
 KNXBridge.prototype._knx = function (callback) {
@@ -438,7 +448,6 @@ KNXBridge.prototype._knx = function (callback) {
             __pendingsd[key] = pendings;
             connect = true;
         }
-
         pendings.push(callback);
 
         if (connect) {
@@ -452,13 +461,12 @@ KNXBridge.prototype._knx = function (callback) {
             }, "connecting to KNX");
 
             if (self.initd.tunnel_host) {
-                knx = new knx_js.KnxConnectionTunneling(
-                    self.initd.host, self.initd.port,
-                    self.initd.tunnel_host, self.initd.tunnel_port
+                knx = new knx_js.IpTunnelingConnection(
+                  {ipAddr: self.initd.host, ipPort: self.initd.port}
                 );
             } else {
-                knx = new knx_js.KnxConnection(
-                    self.initd.host, self.initd.port
+                knx = new knx_js.IpRoutingConnection(
+                  {ipAddr: self.initd.host, ipPort: self.initd.port}
                 );
             }
 
@@ -475,17 +483,11 @@ KNXBridge.prototype._knx = function (callback) {
                     connected: knx.connected
                 }, "connected to KNX! (?)");
 
-                if (knx.connected) {
-                    __knxd[key] = knx;
+                __knxd[key] = knx;
 
-                    pendings.map(function (pending) {
-                        pending(null, knx);
-                    });
-                } else {
-                    pendings.forEach(function (pending) {
-                        pending(new Error("could not establish a connection"), null);
-                    });
-                }
+                pendings.map(function (pending) {
+                    pending(null, knx);
+                });
 
                 delete __pendingsd[key];
             });

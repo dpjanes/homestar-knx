@@ -1,0 +1,10 @@
+--
+--  compile to JSON with 'iotql-model KnxValueBoolean.iotql'
+--
+CREATE MODEL KnxValueBoolean WITH
+    schema:name = "KnxValueBoolean"
+ATTRIBUTE value WITH
+    schema:name = "value",
+    iot:purpose = iot-purpose:value,
+    iot:type = iot:type.boolean
+;

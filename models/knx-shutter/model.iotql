@@ -1,0 +1,27 @@
+--
+--  compile to JSON with 'iotql-model KnxShutter.iotql'
+--
+CREATE MODEL KnxShutter WITH
+    schema:name = "KnxShutter",
+    schema:description = "Shutter",
+    iot:facet = iot-facet:climate
+ATTRIBUTE "position" WITH
+    iot:name = "position",
+    iot:purpose = iot-purpose:open,
+    iot:type = iot:type.integer,
+    iot:unit = iot-unit:math.fraction.percent,
+    iot:minimum = 0,
+    iot:maximum = 100
+ATTRIBUTE "open" WITH
+    iot:name = "open",
+    iot:purpose = iot-purpose:open.true,
+    iot:instantaneous = true,
+    iot:type = iot:type.string,
+    iot:write = true
+ATTRIBUTE "close" WITH
+    iot:name = "close",
+    iot:purpose = iot-purpose:open.false,
+    iot:instantaneous = true,
+    iot:type = iot:type.string,
+    iot:write = true
+;

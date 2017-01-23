@@ -1,0 +1,34 @@
+{
+  "@context": {
+    "@base": "file:///knx-value-boolean",
+    "@vocab": "file:///knx-value-boolean#",
+    "iot": "https://iotdb.org/pub/iot#",
+    "iot-purpose": "https://iotdb.org/pub/iot-purpose#",
+    "iot:purpose": {
+      "@id": "https://iotdb.org/pub/iot#purpose",
+      "@type": "@id"
+    },
+    "iot:type": {
+      "@id": "https://iotdb.org/pub/iot#type",
+      "@type": "@id"
+    },
+    "schema": "http://schema.org/"
+  },
+  "@id": "",
+  "@type": "iot:Model",
+  "iot:attribute": [
+    {
+      "@id": "#value",
+      "@type": "iot:Attribute",
+      "iot:actuator": true,
+      "iot:purpose": "iot-purpose:value",
+      "iot:read": true,
+      "iot:sensor": true,
+      "iot:type": "iot:type.boolean",
+      "iot:write": true,
+      "schema:name": "value"
+    }
+  ],
+  "iot:model-id": "knx-value-boolean",
+  "schema:name": "KnxValueBoolean"
+}

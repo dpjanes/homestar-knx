@@ -24,13 +24,13 @@
 
 exports.Bridge = require('./KNXBridge').Bridge;
 exports.bindings = [
-    require('./models/KnxValueBoolean').binding,
-    require('./models/KnxValueInteger').binding,
-    require('./models/KnxLight').binding,
-    require('./models/KnxShutterRaw').binding,
-    require('./models/KnxShutter').binding,
-    require('./models/KnxSwitch').binding,
-    require('./models/KnxDimmer').binding,
+    require('./models/knx-dimmer').binding,
+    require('./models/knx-light').binding,
+    require('./models/knx-shutter').binding,
+    require('./models/knx-shutter-raw').binding,
+    require('./models/knx-switch').binding,
+    require('./models/knx-value-boolean').binding,
+    require('./models/knx-value-integer').binding,
 ];
 
 exports.module_folder = __dirname;

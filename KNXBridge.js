@@ -95,12 +95,11 @@ const KNXBridge = function (initd, native) {
                 coded.code = code;
 
                 if (coded.write) {
-                    self.knx_writed[coded.code] = coded;
+                    self.knx_writed[code] = coded;
                 }
                 if (coded.read) {
-                    self.knx_readd[coded.read] = coded;
+                    self.knx_readd[parseGA(coded.read).ga] = coded;
                 }
-                console.log('------- coded', coded);
             });
         }
     }
@@ -166,12 +165,10 @@ KNXBridge.prototype.connect = function (connectd) {
     }
 
     self._validate_connect(connectd);
-    console.log('1111111111111---------------- KNX BRIDGE CONNECT', connectd);
     self.connectd = _.defaults(
         connectd, {
             subscribes: [],
             data_in: function (paramd) {
-              console.log('3333333333333333---------------- KNX BRIDGE DATA IN');
                 self._data_in(paramd);
             },
             post_in: function (paramd) {
@@ -181,7 +178,6 @@ KNXBridge.prototype.connect = function (connectd) {
                 return paramd.cookd;
             },
             data_out: function (paramd) {
-              console.log('1111111111111---------------- KNX BRIDGE DATA OUT');
                 self._data_out(paramd);
             },
         }, self.connectd
@@ -193,7 +189,6 @@ KNXBridge.prototype.connect = function (connectd) {
 
 KNXBridge.prototype._data_in = function (paramd) {
     const self = this;
-    console.log('DATA IN', paramd)
     if (self.initd.raw) {
         paramd.cookd = _.d.clone.deep(paramd.rawd);
     } else {
@@ -210,7 +205,6 @@ KNXBridge.prototype._data_in = function (paramd) {
 };
 
 KNXBridge.prototype._data_out = function (paramd) {
-  console.log('DATA OUT')
     const self = this;
 
     if (self.initd.raw) {
@@ -234,15 +228,11 @@ KNXBridge.prototype._setup_read = function () {
 
     // knx_ga, data, datagram
     const _on_change = function (src, dest, value) {
-        if(dest == '3/0/1'){
-          console.log(dest, self.knx_readd[dest]);
-        }
         if (!self.knx_readd[dest]) {
             return;
         }
 
-        value = DPTLib.fromBuffer(value, 'DPT1.001');
-        console.log('DEST', dest, self.knx_readd[dest])
+        value = DPTLib.fromBuffer(value, parseGA(self.knx_readd[dest].read).dpt);
         logger.info({
             method: "_setup_read/on(status)",
             knx_ga: dest,
@@ -265,7 +255,6 @@ KNXBridge.prototype._setup_read = function () {
         }
 
         paramd.cookd['@__validate'] = true;
-        console.log('++++++paramd.cookd', paramd.cookd)
         self.pulled(paramd.cookd);
     };
 
@@ -328,7 +317,6 @@ KNXBridge.prototype.disconnect = function () {
  *  See {iotdb.bridge.Bridge#push} for documentation.
  */
 KNXBridge.prototype.push = function (pushd, done) {
-  console.log('PUSH')
     const self = this;
     if (!self.native) {
         done(new Error("not connected"));
@@ -364,14 +352,11 @@ KNXBridge.prototype.push = function (pushd, done) {
 
 KNXBridge.prototype._send = function (key, value) {
     const self = this;
-    console.log('SEND', key, value)
     if(typeof value == 'boolean'){
       value = value?1:0;
     }
 
     const knxItem = parseGA(key);
-    knxItem.ga
-    knxItem.dpt
 
     const qitem = {
         run: () => {
@@ -382,7 +367,7 @@ KNXBridge.prototype._send = function (key, value) {
             }, "send");
 
             if (self.native) {
-                self.native.write(key, value);
+                self.native.write(knxItem.ga, value, knxItem.dpt);
             }
             self.queue.finished(qitem);
         },
@@ -493,8 +478,6 @@ KNXBridge.prototype._knx = function (callback) {
                 handlers: {
                   // wait for connection establishment before doing anything
                   connected: function() {
-                    // Get a nice greeting when connected.
-                    console.log('Hurray, I can talk KNX!');
                     logger.info({
                         method: "_knx",
                         npending: pendings.length,
@@ -504,7 +487,6 @@ KNXBridge.prototype._knx = function (callback) {
                         tunnel_port: self.initd.tunnel_port,
                         connected: true
                     }, "connected to KNX! (?)");
-                    console.log('CONNETED TO KNX')
                     __knxd[key] = knx;
 
                     pendings.map(function (pending) {

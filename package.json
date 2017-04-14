@@ -1,98 +1,36 @@
 {
-  "_args": [
-    [
-      {
-        "name": "homestar-knx",
-        "raw": "homestar-knx@1.0.1",
-        "rawSpec": "1.0.1",
-        "scope": null,
-        "spec": "1.0.1",
-        "type": "version"
-      },
-      "/Users/Misho/Work/domoticOS2"
-    ]
-  ],
-  "_from": "homestar-knx@1.0.1",
-  "_id": "homestar-knx@1.0.1",
-  "_inCache": true,
-  "_installable": true,
-  "_location": "/homestar-knx",
-  "_nodeVersion": "6.9.1",
-  "_npmOperationalInternal": {
-    "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/homestar-knx-1.0.1.tgz_1485198806087_0.36068168957717717"
-  },
-  "_npmUser": {
-    "email": "davidjanes@davidjanes.com",
-    "name": "dpjanes"
-  },
-  "_npmVersion": "3.10.8",
-  "_phantomChildren": {},
-  "_requested": {
+    "author": "David P. Janes <davidjanes@iotdb.org> (https://iotdb.org)",
+    "bugs": {
+        "url": "https://github.com/dpjanes/homestar-knx/issues"
+    },
+    "dependencies": {
+        "iotdb": ">=3.0.0",
+        "knx": "2.1.1"
+    },
+    "description": "IOTDB Bridge for KNX",
+    "devDependencies": {
+        "grunt": "~1.0.1",
+        "grunt-contrib-jshint": "~1.1.0",
+        "grunt-contrib-nodeunit": "~1.0.0",
+        "grunt-contrib-uglify": "~2.0.0",
+        "grunt-contrib-watch": "~1.0.0",
+        "grunt-jsbeautifier": "~0.2.13",
+        "jshint-stylish": "~2.2.1",
+        "load-grunt-tasks": "~3.5.2",
+        "request": "~2.79.0"
+    },
+    "homepage": "https://github.com/dpjanes/node-iotdb",
+    "homestar": {},
+    "license": "Apache-2.0",
+    "main": "index.js",
     "name": "homestar-knx",
-    "raw": "homestar-knx@1.0.1",
-    "rawSpec": "1.0.1",
-    "scope": null,
-    "spec": "1.0.1",
-    "type": "version"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/homestar-knx/-/homestar-knx-1.0.1.tgz",
-  "_shasum": "2de125282c39c5d3f033e4f6e805ba5e1d87d0eb",
-  "_shrinkwrap": null,
-  "_spec": "homestar-knx@1.0.1",
-  "_where": "/Users/Misho/Work/domoticOS2",
-  "author": {
-    "email": "davidjanes@iotdb.org",
-    "name": "David P. Janes",
-    "url": "https://iotdb.org"
-  },
-  "bugs": {
-    "url": "https://github.com/dpjanes/homestar-knx/issues"
-  },
-  "dependencies": {
-    "iotdb": ">=3.0.0",
-    "knx": "2.1.1"
-  },
-  "description": "IOTDB Bridge for KNX",
-  "devDependencies": {
-    "grunt": "~1.0.1",
-    "grunt-contrib-jshint": "~1.1.0",
-    "grunt-contrib-nodeunit": "~1.0.0",
-    "grunt-contrib-uglify": "~2.0.0",
-    "grunt-contrib-watch": "~1.0.0",
-    "grunt-jsbeautifier": "~0.2.13",
-    "jshint-stylish": "~2.2.1",
-    "load-grunt-tasks": "~3.5.2",
-    "request": "~2.79.0"
-  },
-  "directories": {},
-  "dist": {
-    "shasum": "2de125282c39c5d3f033e4f6e805ba5e1d87d0eb",
-    "tarball": "https://registry.npmjs.org/homestar-knx/-/homestar-knx-1.0.1.tgz"
-  },
-  "homepage": "https://github.com/dpjanes/node-iotdb",
-  "homestar": {},
-  "license": "Apache-2.0",
-  "main": "index.js",
-  "maintainers": [
-    {
-      "email": "davidjanes@davidjanes.com",
-      "name": "dpjanes"
-    }
-  ],
-  "name": "homestar-knx",
-  "optionalDependencies": {},
-  "private": false,
-  "readme": "ERROR: No README data found!",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dpjanes/homestar-knx.git"
-  },
-  "scripts": {
-    "test": "grunt"
-  },
-  "version": "1.0.1"
+    "private": false,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dpjanes/homestar-knx"
+    },
+    "scripts": {
+        "test": "grunt"
+    },
+    "version": "1.0.1"
 }

@@ -35,11 +35,16 @@ const logger = iotdb.logger({
 
 
 const parseGA = function(GA){
-  let valueObj = GA.split(";dpt=");
-  if(!valueObj[1]){
-    valueObj[1] = '1.001';
-  }
-  return {ga:valueObj[0], dpt:valueObj[1]}
+    let valueObj = GA.split(";dpt=");
+    
+    if(!valueObj[1]){
+      valueObj[1] = '1.001';
+    }
+
+    return {
+      ga: valueObj[0],
+      dpt: valueObj[1]
+    }
 }
 
 /*

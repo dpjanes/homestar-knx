@@ -27,11 +27,25 @@ const _ = iotdb._;
 
 const url = require('url');
 const knx_js = require('knx');
-
+const DPTLib = require('knx/src/dptlib');
 const logger = iotdb.logger({
     name: 'homestar-knx',
     module: 'KNXBridge',
 });
+
+
+const parseGA = function(GA){
+    let valueObj = GA.split(";dpt=");
+    
+    if(!valueObj[1]){
+      valueObj[1] = '1.001';
+    }
+
+    return {
+      ga: valueObj[0],
+      dpt: valueObj[1]
+    }
+}
 
 /*
     localIpAddress, 13671);
@@ -86,10 +100,10 @@ const KNXBridge = function (initd, native) {
                 coded.code = code;
 
                 if (coded.write) {
-                    self.knx_writed[coded.code] = coded;
+                    self.knx_writed[code] = coded;
                 }
                 if (coded.read) {
-                    self.knx_readd[coded.read] = coded;
+                    self.knx_readd[parseGA(coded.read).ga] = coded;
                 }
             });
         }
@@ -156,7 +170,6 @@ KNXBridge.prototype.connect = function (connectd) {
     }
 
     self._validate_connect(connectd);
-
     self.connectd = _.defaults(
         connectd, {
             subscribes: [],
@@ -181,7 +194,6 @@ KNXBridge.prototype.connect = function (connectd) {
 
 KNXBridge.prototype._data_in = function (paramd) {
     const self = this;
-
     if (self.initd.raw) {
         paramd.cookd = _.d.clone.deep(paramd.rawd);
     } else {
@@ -214,16 +226,18 @@ KNXBridge.prototype._data_out = function (paramd) {
     }
 };
 
+
+
 KNXBridge.prototype._setup_read = function () {
     const self = this;
 
     // knx_ga, data, datagram
     const _on_change = function (src, dest, value) {
-
         if (!self.knx_readd[dest]) {
             return;
         }
 
+        value = DPTLib.fromBuffer(value, parseGA(self.knx_readd[dest].read).dpt);
         logger.info({
             method: "_setup_read/on(status)",
             knx_ga: dest,
@@ -249,14 +263,15 @@ KNXBridge.prototype._setup_read = function () {
         self.pulled(paramd.cookd);
     };
 
-    self.native.on('GroupValue_Response', function (src, dest, value) {
-        _on_change(src, dest, value);
-        //_on_change(knx_ga, data, datagram);
-    });
-    self.native.on('GroupValue_Write', function (src, dest, value) {
-        _on_change(src, dest, value);
-        //_on_change(knx_ga, data, datagram);
-    });
+
+    //if(!self.native.eventAttached){
+      //self.native.eventAttached = true;
+      self.native.on('event', function (evt, src, dest, value) {
+        //console.log('ON EVENT', evt)
+          _on_change(src, dest, value);
+      });
+    //}
+
 
     self.connectd.subscribes.map(function (knx_ga) {
         logger.info({
@@ -264,7 +279,6 @@ KNXBridge.prototype._setup_read = function () {
             knx_ga: knx_ga,
         }, "subscribe to GA (connectd.subscribes)");
         self.native.read(knx_ga);
-        //self.native.RequestStatus(knx_ga);
     });
 
     _.mapObject(self.knx_readd, function (coded, knx_ga) {
@@ -273,7 +287,6 @@ KNXBridge.prototype._setup_read = function () {
             knx_ga: knx_ga,
         }, "subscribe to GA (knx_readd)");
         self.native.read(knx_ga);
-        //self.native.RequestStatus(knx_ga);
     });
 };
 
@@ -344,10 +357,11 @@ KNXBridge.prototype.push = function (pushd, done) {
 
 KNXBridge.prototype._send = function (key, value) {
     const self = this;
-
     if(typeof value == 'boolean'){
       value = value?1:0;
     }
+
+    const knxItem = parseGA(key);
 
     const qitem = {
         run: () => {
@@ -358,8 +372,7 @@ KNXBridge.prototype._send = function (key, value) {
             }, "send");
 
             if (self.native) {
-
-                self.native.write(key, value);
+                self.native.write(knxItem.ga, value, knxItem.dpt);
             }
             self.queue.finished(qitem);
         },
@@ -459,38 +472,42 @@ KNXBridge.prototype._knx = function (callback) {
                 tunnel_host: self.initd.tunnel_host,
                 tunnel_port: self.initd.tunnel_port
             }, "connecting to KNX");
+            knx = new knx_js.Connection(
+              {
+                ipAddr: self.initd.host, // ip address of the KNX router or interface
+                ipPort: self.initd.port, // the UDP port of the router or interface
+                physAddr: '15.15.15', // the KNX physical address we want to use
+                debug: false, // print lots of debug output to the console
+                manualConnect: false, // do not automatically connect, but use connection.Connect() to establish connection
+                minimumDelay: 10, // wait at least 10 millisec between each datagram
+                handlers: {
+                  // wait for connection establishment before doing anything
+                  connected: function() {
+                    logger.info({
+                        method: "_knx",
+                        npending: pendings.length,
+                        host: self.initd.host,
+                        port: self.initd.port,
+                        tunnel_host: self.initd.tunnel_host,
+                        tunnel_port: self.initd.tunnel_port,
+                        connected: true
+                    }, "connected to KNX! (?)");
+                    __knxd[key] = knx;
 
-            if (self.initd.tunnel_host) {
-                knx = new knx_js.IpTunnelingConnection(
-                  {ipAddr: self.initd.host, ipPort: self.initd.port}
-                );
-            } else {
-                knx = new knx_js.IpRoutingConnection(
-                  {ipAddr: self.initd.host, ipPort: self.initd.port}
-                );
-            }
+                    pendings.map(function (pending) {
+                        pending(null, knx);
+                    });
 
+                    delete __pendingsd[key];
+                  },
 
-            // probably should be error checking here
-            knx.Connect(() => {
-                logger.info({
-                    method: "_knx",
-                    npending: pendings.length,
-                    host: self.initd.host,
-                    port: self.initd.port,
-                    tunnel_host: self.initd.tunnel_host,
-                    tunnel_port: self.initd.tunnel_port,
-                    connected: knx.connected
-                }, "connected to KNX! (?)");
-
-                __knxd[key] = knx;
-
-                pendings.map(function (pending) {
-                    pending(null, knx);
-                });
-
-                delete __pendingsd[key];
-            });
+                  // get notified on connection errors
+                  error: function(connstatus) {
+                    console.log("**** ERROR: %j", connstatus);
+                  }
+                }
+              }
+            )
         }
     } else {
         callback(null, knx);
